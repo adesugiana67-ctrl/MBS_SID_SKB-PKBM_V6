@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Peserta Didik - Dinas Pendidikan Sumedang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased min-h-screen flex flex-col">
+  <div id="navbar-root"></div>
+
+  <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+    <div class="bg-white rounded-lg shadow p-6 print-area">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-4">
+        <h2 class="text-xl font-semibold text-slate-800">Data Peserta Didik SPMB ATS/APS Pendidikan Non Formal 2026</h2>
+        <div id="toolbar"></div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-slate-50 text-slate-600 text-left">
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">No</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">NPSN</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Nama Sekolah</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Alamat Sekolah</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Wil. Kecamatan</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Zonasi Kel/Desa</th>
+              <th colspan="2" class="px-3 py-2 font-semibold text-xs uppercase tracking-wide text-center border-b border-slate-200">Peserta Didik</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Jumlah</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Verval</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200 no-print">Aksi</th>
+            </tr>
+            <tr class="bg-slate-50 text-slate-600 text-left">
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Laki-Laki</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Perempuan</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/components.js"></script>
+  <script>
+    renderNavbar('peserta-didik');
+    renderFooter();
+
+    const KECAMATAN = ['Sumedang Utara','Sumedang Selatan','Cimalaka','Tanjungsari','Jatinangor','Cisarua','Paseh','Conggeang','Buahdua','Situraja','Wado','Tomo','Ujungjaya'];
+    const VERVAL = ['Sudah','Belum'];
+
+    function renderTable() {
+      const rows = DB.getPesertaDidik();
+      const tbody = document.getElementById('tbody');
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center py-10 text-slate-400">Belum ada data. Klik "+ Input Data" untuk menambahkan.</td></tr>`;
+      } else {
+        tbody.innerHTML = rows.map((r, i) => {
+          const total = Number(r.lakiLaki || 0) + Number(r.perempuan || 0);
+          const sudah = (r.verval || '').toLowerCase() === 'sudah';
+          return `
+            <tr class="border-t border-slate-100 align-top">
+              <td class="px-3 py-3">${i + 1}</td>
+              <td class="px-3 py-3"><span class="text-blue-600 font-medium">${esc(r.npsn)}</span></td>
+              <td class="px-3 py-3">${esc(r.namaSekolah)}</td>
+              <td class="px-3 py-3 max-w-xs">${esc(r.alamatSekolah)}</td>
+              <td class="px-3 py-3"><span class="bg-amber-200 text-amber-900 px-2 py-1 rounded font-semibold">${esc(r.wilKecamatan)}</span></td>
+              <td class="px-3 py-3"><span class="bg-amber-100 text-rose-700 px-2 py-1 rounded font-semibold">${esc(r.zonasiKelDesa)}</span></td>
+              <td class="px-3 py-3">${esc(r.lakiLaki)}</td>
+              <td class="px-3 py-3">${esc(r.perempuan)}</td>
+              <td class="px-3 py-3"><span class="bg-amber-200 text-amber-900 px-3 py-1 rounded font-bold">${total}</span></td>
+              <td class="px-3 py-3"><span class="px-3 py-1 rounded font-semibold text-xs ${sudah ? 'bg-emerald-200 text-emerald-900' : 'bg-rose-200 text-rose-800'}">${esc(r.verval)}</span></td>
+              <td class="px-3 py-3 no-print">${actionButtonsHtml(r.id, 'peserta')}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      renderToolbar('toolbar', {
+        onAdd: () => openForm(),
+        printTitle: 'Data Peserta Didik SPMB ATS-APS - Dinas Pendidikan Sumedang',
+        pdf: {
+          title: 'DATA PESERTA DIDIK SPMB ATS/APS PENDIDIKAN NON FORMAL 2026',
+          filename: 'data-peserta-didik-' + new Date().toISOString().slice(0, 10) + '.pdf',
+          columns: [
+            { header: 'No', dataKey: 'no' },
+            { header: 'NPSN', dataKey: 'npsn' },
+            { header: 'Nama Sekolah', dataKey: 'namaSekolah' },
+            { header: 'Alamat Sekolah', dataKey: 'alamatSekolah' },
+            { header: 'Kecamatan', dataKey: 'wilKecamatan' },
+            { header: 'Zonasi Kel/Desa', dataKey: 'zonasiKelDesa' },
+            { header: 'L', dataKey: 'lakiLaki' },
+            { header: 'P', dataKey: 'perempuan' },
+            { header: 'Jumlah', dataKey: 'jumlah' },
+            { header: 'Verval', dataKey: 'verval' },
+          ],
+          rows: rows.map((r, i) => ({ ...r, no: i + 1, jumlah: Number(r.lakiLaki || 0) + Number(r.perempuan || 0) })),
+        },
+      });
+
+      tbody.querySelectorAll('button[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          if (btn.dataset.action === 'edit') openForm(id);
+          else handleDelete(id);
+        });
+      });
+    }
+
+    function openForm(editId) {
+      const editing = editId ? DB.getPesertaDidik().find(r => r.id === editId) : null;
+      const v = editing || {
+        npsn: '', namaSekolah: '', alamatSekolah: '', wilKecamatan: 'Sumedang Utara',
+        zonasiKelDesa: '', lakiLaki: 0, perempuan: 0, verval: 'Belum',
+      };
+      const title = editing ? 'Edit Data Peserta Didik' : 'Input Data Peserta Didik';
+      const body = `
+        <form id="modal-form" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${field('NPSN', `<input name="npsn" value="${esc(v.npsn)}" class="input" required>`, true)}
+            ${field('Nama Sekolah', `<input name="namaSekolah" value="${esc(v.namaSekolah)}" class="input" required>`, true)}
+          </div>
+          ${field('Alamat Sekolah', `<textarea name="alamatSekolah" class="input min-h-[60px]" required>${esc(v.alamatSekolah)}</textarea>`, true)}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${field('Wilayah Kecamatan', `<select name="wilKecamatan" class="input" required>${KECAMATAN.map(o => `<option value="${o}" ${o === v.wilKecamatan ? 'selected' : ''}>${o}</option>`).join('')}</select>`, true)}
+            ${field('Zonasi Kelurahan/Desa', `<input name="zonasiKelDesa" value="${esc(v.zonasiKelDesa)}" class="input" placeholder="Contoh: Mulyasari Sirnamulya" required>`, true)}
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${field('Laki-Laki', `<input type="number" name="lakiLaki" min="0" value="${esc(v.lakiLaki)}" class="input">`)}
+            ${field('Perempuan', `<input type="number" name="perempuan" min="0" value="${esc(v.perempuan)}" class="input">`)}
+            ${field('Verval', `<select name="verval" class="input" required>${VERVAL.map(o => `<option value="${o}" ${o === v.verval ? 'selected' : ''}>${o}</option>`).join('')}</select>`, true)}
+          </div>
+          <div class="flex justify-end gap-2 pt-2">
+            <button type="button" id="modal-cancel" class="px-4 py-2 text-sm rounded border border-slate-300 text-slate-700 hover:bg-slate-50">Batal</button>
+            <button type="submit" class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">${editing ? 'Update' : 'Simpan'}</button>
+          </div>
+        </form>
+      `;
+      openModal(title, body, () => {
+        document.getElementById('modal-cancel').addEventListener('click', closeModal);
+        document.getElementById('modal-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target);
+          const row = {
+            npsn: fd.get('npsn'),
+            namaSekolah: fd.get('namaSekolah'),
+            alamatSekolah: fd.get('alamatSekolah'),
+            wilKecamatan: fd.get('wilKecamatan'),
+            zonasiKelDesa: fd.get('zonasiKelDesa'),
+            lakiLaki: Number(fd.get('lakiLaki') || 0),
+            perempuan: Number(fd.get('perempuan') || 0),
+            verval: fd.get('verval'),
+          };
+          if (editing) DB.updatePesertaDidik(editId, row);
+          else DB.addPesertaDidik(row);
+          closeModal();
+          renderTable();
+        });
+      });
+    }
+
+    function handleDelete(id) {
+      const row = DB.getPesertaDidik().find(r => r.id === id);
+      if (!row) return;
+      if (!confirm(`Hapus data peserta didik "${row.namaSekolah}"?`)) return;
+      DB.deletePesertaDidik(id);
+      renderTable();
+    }
+
+    function field(label, controlHtml, required) {
+      return `<label class="block"><span class="text-xs font-medium text-slate-700">${label} ${required ? '<span class="text-rose-500">*</span>' : ''}</span><div class="mt-1">${controlHtml}</div></label>`;
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beranda - Dinas Pendidikan Sumedang SKB/PKBM 2026</title>
+  <meta name="description" content="Standar Pengelolaan Satuan Pendidikan Non Formal SKB/PKBM Tahun 2026 - Dinas Pendidikan Kabupaten Sumedang" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased min-h-screen flex flex-col">
+  <div id="navbar-root"></div>
+
+  <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1 space-y-8">
+    <!-- Header card -->
+    <div class="bg-white rounded-lg shadow border-t-4 border-blue-500 p-8 md:p-12 text-center">
+      <h1 class="text-blue-600 font-bold text-xl md:text-2xl leading-relaxed">
+        DINAS PENDIDIKAN KABUPATEN SUMEDANG<br />
+        STANDAR PENGELOLAAN SATUAN PENDIDIKAN NON FORMAL<br />
+        PENYELENGGARAAN PENDIDIKAN KESETARAAN SKB/PKBM TAHUN 2026
+      </h1>
+      <p class="mt-6 italic text-slate-500 text-sm md:text-base">
+        "MANAJEMEN BERBASIS SEKOLAH (MBS) DAN PENGELOLAAN SISTEM INFORMASI (DIGITALISASI)"
+      </p>
+    </div>
+
+    <!-- KPI cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="kpi-cards"></div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="font-semibold text-slate-800">Laporan Data Akreditasi</h3>
+            <p class="text-xs text-slate-500 mt-1">Distribusi peringkat akreditasi lembaga</p>
+          </div>
+          <a href="akreditasi.html" class="text-xs font-medium text-blue-600 hover:underline">Lihat detail →</a>
+        </div>
+        <div id="chart-akreditasi"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="font-semibold text-slate-800">Laporan Peserta Didik SPMB ATS/APS</h3>
+            <p class="text-xs text-slate-500 mt-1">Komposisi peserta didik & status verval</p>
+          </div>
+          <a href="peserta-didik.html" class="text-xs font-medium text-blue-600 hover:underline">Lihat detail →</a>
+        </div>
+        <div id="chart-peserta"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 lg:col-span-2">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="font-semibold text-slate-800">Laporan E-Rapor 8 SNP SKB/PKBM</h3>
+            <p class="text-xs text-slate-500 mt-1">Rata-rata capaian Standar Nasional Pendidikan (%)</p>
+          </div>
+          <a href="e-rapor.html" class="text-xs font-medium text-blue-600 hover:underline">Lihat detail →</a>
+        </div>
+        <div id="chart-erapor"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/components.js"></script>
+  <script src="assets/charts.js"></script>
+  <script>
+    renderNavbar('beranda');
+    renderFooter();
+
+    const ak = DB.getAkreditasi();
+    const pd = DB.getPesertaDidik();
+    const er = DB.getERapor();
+
+    // KPIs
+    const totalLaki = pd.reduce((s, p) => s + Number(p.lakiLaki || 0), 0);
+    const totalPerempuan = pd.reduce((s, p) => s + Number(p.perempuan || 0), 0);
+    const sudahVerval = pd.filter(p => (p.verval || '').toLowerCase() === 'sudah').length;
+    document.getElementById('kpi-cards').innerHTML = [
+      kpiCard('Total Lembaga (Akreditasi)', ak.length, 'bg-blue-500'),
+      kpiCard('Total Peserta Didik', totalLaki + totalPerempuan, 'bg-emerald-500'),
+      kpiCard('Sudah Verval', sudahVerval, 'bg-amber-500'),
+      kpiCard('Lembaga E-Rapor', er.length, 'bg-rose-500'),
+    ].join('');
+
+    // Akreditasi distribution chart
+    const akCounts = { A: 0, B: 0, C: 0, TT: 0, Belum: 0 };
+    ak.forEach(a => { akCounts[a.akreditasi] = (akCounts[a.akreditasi] || 0) + 1; });
+    document.getElementById('chart-akreditasi').innerHTML = renderAkreditasiChart(akCounts);
+
+    // Peserta didik donuts
+    document.getElementById('chart-peserta').innerHTML = renderPesertaChart({
+      laki: totalLaki,
+      perempuan: totalPerempuan,
+      sudah: sudahVerval,
+      belum: pd.length - sudahVerval,
+    });
+
+    // E-Rapor averages
+    const avg = key => er.length === 0 ? 0 : Math.round(er.reduce((s, r) => s + Number(r[key] || 0), 0) / er.length);
+    document.getElementById('chart-erapor').innerHTML = renderERaporChart({
+      'SKL': avg('skl'),
+      'S.Isi': avg('sIsi'),
+      'S.Proses': avg('sProses'),
+      'S.Penilaian': avg('sPenilaian'),
+      'S.PTK': avg('sPtk'),
+      'S.Sapras': avg('sSapras'),
+      'S.Pengelolaan': avg('sPengelolaan'),
+      'S.Pembiayaan': avg('sPembiayaan'),
+    });
+  </script>
+</body>
+</html>

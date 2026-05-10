@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data E-Rapor 8 SNP - Dinas Pendidikan Sumedang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased min-h-screen flex flex-col">
+  <div id="navbar-root"></div>
+
+  <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+    <div class="bg-white rounded-lg shadow p-6 print-area">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 mb-4">
+        <h2 class="text-xl font-semibold text-slate-800">Data E-Rapor 8 SNP SKB/PKBM</h2>
+        <div id="toolbar"></div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-slate-50 text-slate-600 text-left">
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">No</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">NPSN</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Nama Lembaga</th>
+              <th colspan="8" class="px-3 py-2 font-semibold text-xs uppercase tracking-wide text-center border-b border-slate-200">Standar Nasional Pendidikan</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">Keterisian 8 SNP SKB/PKBM</th>
+              <th rowspan="2" class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200 no-print">Aksi</th>
+            </tr>
+            <tr class="bg-slate-50 text-slate-600 text-left">
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">SKL</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Isi</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Proses</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Penilaian</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.PTK</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Sapras</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Pengelolaan</th>
+              <th class="px-3 py-3 font-semibold text-xs uppercase tracking-wide border-b border-slate-200">S.Pembiayaan</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-root"></div>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/components.js"></script>
+  <script>
+    renderNavbar('e-rapor');
+    renderFooter();
+
+    const KETERISIAN = ['LENGKAP', 'BELUM LENGKAP'];
+    const SNP = [
+      { key: 'skl', label: 'SKL' },
+      { key: 'sIsi', label: 'S.Isi' },
+      { key: 'sProses', label: 'S.Proses' },
+      { key: 'sPenilaian', label: 'S.Penilaian' },
+      { key: 'sPtk', label: 'S.PTK' },
+      { key: 'sSapras', label: 'S.Sapras' },
+      { key: 'sPengelolaan', label: 'S.Pengelolaan' },
+      { key: 'sPembiayaan', label: 'S.Pembiayaan' },
+    ];
+
+    function categorize(v) {
+      if (v >= 80) return { label: 'Baik', cls: 'bg-emerald-200 text-emerald-900' };
+      if (v >= 60) return { label: 'Cukup', cls: 'bg-amber-100 text-amber-800' };
+      if (v >= 40) return { label: 'Sedang', cls: 'bg-amber-200 text-amber-900' };
+      return { label: 'Kurang', cls: 'bg-rose-200 text-rose-900' };
+    }
+
+    function renderTable() {
+      const rows = DB.getERapor();
+      const tbody = document.getElementById('tbody');
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="13" class="text-center py-10 text-slate-400">Belum ada data. Klik "+ Input Data" untuk menambahkan.</td></tr>`;
+      } else {
+        tbody.innerHTML = rows.map((r, i) => {
+          const cells = SNP.map(f => {
+            const v = Number(r[f.key] || 0);
+            const c = categorize(v);
+            return `<td class="px-3 py-3"><span class="px-2 py-1 rounded font-semibold ${c.cls}">${v}% (${c.label})</span></td>`;
+          }).join('');
+          return `
+            <tr class="border-t border-slate-100 align-top">
+              <td class="px-3 py-3">${i + 1}</td>
+              <td class="px-3 py-3">${esc(r.npsn)}</td>
+              <td class="px-3 py-3"><span class="text-blue-600 font-medium">${esc(r.namaLembaga)}</span></td>
+              ${cells}
+              <td class="px-3 py-3"><span class="px-3 py-1 rounded font-bold text-xs ${r.keterisian === 'LENGKAP' ? 'bg-emerald-200 text-emerald-900' : 'bg-rose-200 text-rose-900'}">${esc(r.keterisian)}</span></td>
+              <td class="px-3 py-3 no-print">${actionButtonsHtml(r.id, 'erapor')}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      renderToolbar('toolbar', {
+        onAdd: () => openForm(),
+        printTitle: 'Data E-Rapor 8 SNP - Dinas Pendidikan Sumedang',
+        pdf: {
+          title: 'DATA E-RAPOR 8 SNP SKB/PKBM TAHUN 2026',
+          filename: 'data-e-rapor-' + new Date().toISOString().slice(0, 10) + '.pdf',
+          columns: [
+            { header: 'No', dataKey: 'no' },
+            { header: 'NPSN', dataKey: 'npsn' },
+            { header: 'Nama Lembaga', dataKey: 'namaLembaga' },
+            { header: 'SKL', dataKey: 'sklP' },
+            { header: 'S.Isi', dataKey: 'sIsiP' },
+            { header: 'S.Proses', dataKey: 'sProsesP' },
+            { header: 'S.Penilaian', dataKey: 'sPenilaianP' },
+            { header: 'S.PTK', dataKey: 'sPtkP' },
+            { header: 'S.Sapras', dataKey: 'sSaprasP' },
+            { header: 'S.Pengelolaan', dataKey: 'sPengelolaanP' },
+            { header: 'S.Pembiayaan', dataKey: 'sPembiayaanP' },
+            { header: 'Keterisian', dataKey: 'keterisian' },
+          ],
+          rows: rows.map((r, i) => ({
+            ...r, no: i + 1,
+            sklP: r.skl + '%', sIsiP: r.sIsi + '%', sProsesP: r.sProses + '%',
+            sPenilaianP: r.sPenilaian + '%', sPtkP: r.sPtk + '%', sSaprasP: r.sSapras + '%',
+            sPengelolaanP: r.sPengelolaan + '%', sPembiayaanP: r.sPembiayaan + '%',
+          })),
+        },
+      });
+
+      tbody.querySelectorAll('button[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          if (btn.dataset.action === 'edit') openForm(id);
+          else handleDelete(id);
+        });
+      });
+    }
+
+    function openForm(editId) {
+      const editing = editId ? DB.getERapor().find(r => r.id === editId) : null;
+      const v = editing || {
+        npsn: '', namaLembaga: '',
+        skl: 0, sIsi: 0, sProses: 0, sPenilaian: 0,
+        sPtk: 0, sSapras: 0, sPengelolaan: 0, sPembiayaan: 0,
+        keterisian: 'BELUM LENGKAP',
+      };
+      const title = editing ? 'Edit Data E-Rapor 8 SNP' : 'Input Data E-Rapor 8 SNP';
+      const snpInputs = SNP.map(f =>
+        field(f.label, `<input type="number" name="${f.key}" min="0" max="100" value="${esc(v[f.key])}" class="input">`)
+      ).join('');
+      const body = `
+        <form id="modal-form" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${field('NPSN', `<input name="npsn" value="${esc(v.npsn)}" class="input" required>`, true)}
+            ${field('Nama Lembaga', `<input name="namaLembaga" value="${esc(v.namaLembaga)}" class="input" required>`, true)}
+          </div>
+          <div class="border border-slate-200 rounded p-4">
+            <div class="text-sm font-semibold text-slate-700 mb-3">Standar Nasional Pendidikan (0–100%)</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">${snpInputs}</div>
+          </div>
+          ${field('Keterisian 8 SNP', `<select name="keterisian" class="input" required>${KETERISIAN.map(o => `<option value="${o}" ${o === v.keterisian ? 'selected' : ''}>${o}</option>`).join('')}</select>`, true)}
+          <div class="flex justify-end gap-2 pt-2">
+            <button type="button" id="modal-cancel" class="px-4 py-2 text-sm rounded border border-slate-300 text-slate-700 hover:bg-slate-50">Batal</button>
+            <button type="submit" class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">${editing ? 'Update' : 'Simpan'}</button>
+          </div>
+        </form>
+      `;
+      openModal(title, body, () => {
+        document.getElementById('modal-cancel').addEventListener('click', closeModal);
+        document.getElementById('modal-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target);
+          const clamp = x => Math.max(0, Math.min(100, Math.round(Number(x) || 0)));
+          const row = {
+            npsn: fd.get('npsn'),
+            namaLembaga: fd.get('namaLembaga'),
+            keterisian: fd.get('keterisian'),
+          };
+          SNP.forEach(f => { row[f.key] = clamp(fd.get(f.key)); });
+          if (editing) DB.updateERapor(editId, row);
+          else DB.addERapor(row);
+          closeModal();
+          renderTable();
+        });
+      });
+    }
+
+    function handleDelete(id) {
+      const row = DB.getERapor().find(r => r.id === id);
+      if (!row) return;
+      if (!confirm(`Hapus data E-Rapor "${row.namaLembaga}"?`)) return;
+      DB.deleteERapor(id);
+      renderTable();
+    }
+
+    function field(label, controlHtml, required) {
+      return `<label class="block"><span class="text-xs font-medium text-slate-700">${label} ${required ? '<span class="text-rose-500">*</span>' : ''}</span><div class="mt-1">${controlHtml}</div></label>`;
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>
