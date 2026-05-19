@@ -190,8 +190,9 @@
                             <th class="p-3">Nama Lembaga</th>
                             <th class="p-3">Alamat</th>
                             <th class="p-3">Kepala Sekolah</th>
-                            <th class="p-3 text-center">Tahun Pembuatan</th>
-                            <th class="p-3 text-center">Tahun Berakhir</th>
+                            <th class="p-3 text-center">Pembuatan</th>
+                            <th class="p-3 text-center">Berakhir</th>
+                            <th class="p-3">Nomor SK</th>
                             <th class="p-3 text-center no-print">Aksi</th>
                         </tr>
                     </thead>
@@ -309,10 +310,11 @@
                 <div><label class="block font-medium mb-1">Alamat</label><input type="text" id="ijin-alamat" required class="w-full p-2 border rounded"></div>
                 <div><label class="block font-medium mb-1">Kepala Sekolah</label><input type="text" id="ijin-kepsek" required class="w-full p-2 border rounded"></div>
                 <div class="grid grid-cols-2 gap-2">
-                    <div><label class="block font-medium mb-1">Tahun Pembuatan</label><input type="number" id="ijin-pembuatan" required class="w-full p-2 border rounded"></div>
-                    <div><label class="block font-medium mb-1">Tahun Berakhir</label><input type="number" id="ijin-berakhir" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Pembuatan</label><input type="number" id="ijin-pembuatan" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Berakhir</label><input type="number" id="ijin-berakhir" required class="w-full p-2 border rounded"></div>
                 </div>
-                <div class="flex justify-end space-x-2 pt-3 border-t">
+                 <div><label class="block font-medium mb-1">Nomor SK</label><input type="text" id="akr-sk" class="w-full p-2 border rounded"></div>
+                 <div class="flex justify-end space-x-2 pt-3 border-t">
                     <button type="button" onclick="closeModal('modal-ijin')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Batal</button>
                     <button type="submit" id="btn-submit-ijin" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded font-medium">Simpan</button>
                 </div>
@@ -415,21 +417,44 @@
             { npsn: 'P9934693', nama: 'PKBM BINA BHAKTI MANDIRI', alamat: 'Dusun Dustan RT.03 RW.04, Desa Cisitu', kepsek: 'ISARIS ARWIANTI', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
             { npsn: 'P9984831', nama: 'PKBM NUURUL HAQQ', alamat: 'Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan', kepsek: 'JAJANG ZAINAL MUTAQIN', grade: 'C', tahun: 2022, akhir: 2027, sk: 'No SK: 102/BAN PAUD DAN PNF/AKR/2022' },
             { npsn: 'P2970386', nama: 'PKBM AGROFORESTY', alamat: 'Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot', kepsek: 'NENG TETI RUSMAYANTI', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
-            { npsn: 'P9911127', nama: 'PKBM RAUDHOTUL JANNAH', alamat: 'Dsn. Cikuda 05/05 Desa Sukatani', kepsek: 'DEWI SRI WARTINI', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9911127', nama: 'PKBM RAUDHOTUL JANNAH', alamat: 'Dsn. Cikuda 05/05 Desa Sukatani', kepsek: 'DEWI SRI WARTINI', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' }
         ];
 
-        let dataIjin = dataAkreditasi.map((item, idx) => {
-            let logikTahunAkhir = 2025 + (idx % 5);
-            return {
-                npsn: item.npsn,
-                nama: item.nama,
-                alamat: item.alamat,
-                kepsek: item.kepsek,
-                pembuatan: logikTahunAkhir - 5,
-                berakhir: logikTahunAkhir
-            };
-        });
-
+        let dataIjin = [
+            { npsn: 'P2963449', nama: 'PKBM MEKAR BUANA', alamat: 'Jl. Angkrek No.98 Kel.Kotakaler', kepsek: 'EGI ZAENAL MUTAQIEN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9934726', nama: 'PKBM PASCA MARGA', alamat: 'Jl. KLK No.72 Rt2/Rw2,Desa.Rancamulya', kepsek: 'DEDEH KURAESIN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9952581', nama: 'PKBM MULYASARI SEJATI', alamat: 'Dsn. Kadapugur Rt1/Rw6 Desa Mulyasari', kepsek: 'GRACY MEILANITA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9999789', nama: 'PKBM AL-AMANAH', alamat: 'Jl. Angkrek Gg. Karyawan II Kel. Situ', kepsek: 'DEDI MUHAMMAD ISHAK', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984783', nama: 'PKBM MENTARI MADANI', alamat: 'Prm Jatihurip Blok 9 Desa Jatihurip', kepsek: 'YANA SATRIANA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2970750', nama: 'PKBM MENTARI KREATIF MANDIRI', alamat: 'Jl Serma Muhtar NO 97 RT 1RW 7,Kel. Situ', kepsek: 'ARIF FIRMAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2971163', nama: 'PKBM CENDIKIA PURNAMA', alamat: 'Jln. 11 April No. 07 Tegalkalong Kel. Kota Kaler', kepsek: 'ERWIN SUHERLAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2963445', nama: 'PKBM TARBIYATUL UMMAH', alamat: 'Dsn Cijengkol Rt 1/Rw 4,Desa Cikoneng', kepsek: 'NYAI SUMIATI', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9968108', nama: 'PKBM CIGEMBONG', alamat: 'Dsn. Cigembong RT 1/RW 3, Desa Cikondang', kepsek: 'RIFIN KUSTIAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984832', nama: 'PKBM PELITA INSANI', alamat: 'Jl Pangeran Bungsu No.01 RT1/RW4 Desa Cisarua ', kepsek: 'DADANG SUHENRA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2970545', nama: 'PKBM PANDAWA', alamat: 'Dusun Cibolang RT2/RW3 Desa Kebon Kalapa', kepsek: 'LILIS SUWANGSIH', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9952443', nama: 'PKBM MAHARANI', alamat: 'Jln. Raya Situraja No. 163-164, RT/RW 4/03 Ds. Situraja', kepsek: 'TATANG JUWITA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9997402', nama: 'PKBM SRIKANDI', alamat: 'Jalan. Wirahadikusumah No.19 Desa SukatalI', kepsek: 'WAWAN HADI MULYANA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9952442', nama: 'PKBM AL GHOFUR SITURAJA', alamat: 'Kampung Tarikolot RT 02/04 Desa Situraja', kepsek: 'ELIS TARYAMAH', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2963429', nama: 'PKBM AT-TAYIBAH', alamat: 'Dsn. Pakemitan, RT.02 RW.05 Desa Situraja', kepsek: 'M. FARID TAUFIQURROHMAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2970650', nama: 'PKBM CERDAS KARYA', alamat: 'Dusun Cimuruy Rt. 003 Rw. 001 Desa Mekarmulya', kepsek: 'SARSA WITARSA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2970727', nama: 'PKBM PRIMAGAMA', alamat: 'DSN CIJATI HILIR RT 01/RW 06 Desa Jatimekar', kepsek: 'ECIN KURASESIN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984552', nama: 'PKBM ACTUAL SEJAHTERA', alamat: 'Jl. Pangeran Geusan Ulun No. 125 Sumedang RT 1/RW 13 Kel. Kota Kulon', kepsek: 'HADI NUGRAHA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2963439', nama: 'PKBM AS-SALAAM', alamat: 'Dusun SingkupRT 1RW 1 Desa Ciherang', kepsek: 'NURLAELA FATIMAH', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984560', nama: 'PKBM CENDEKIA', alamat: 'Jl. Kebon Seureuh 03/03 Kelurahan Cipameungpeuk', kepsek: 'IKE MEDYAWATI', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9999642', nama: 'PKBM Generasi Khoiru Ummah', alamat: 'Dusun Cieurih Rt 02 Rw 05 Desa Cipancar', kepsek: 'PITRA SAGARA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984529', nama: 'PKBM IGI SUMEDANG', alamat: 'Prm. Dago Village F2 Rt 03/Rw 11 Desa Sukajaya', kepsek: 'RIDA FATIMAH ZAKIYATUL HUDA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2963440', nama: 'PKBM NURUL HUDA', alamat: 'Dusun KukuluRT 4 RW 5 Desa Sukajaya', kepsek: 'FEBRIYAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9998294', nama: 'PKBM SHOHIBUL QURAN', alamat: 'Lingkungan Warung Jambu RT. 02 RW. 05 Kel. Pasanggrahan Baru', kepsek: 'KIKI KURNIAWAN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9996364', nama: 'PKBM AL QOSIMMIYAH', alamat: 'Dusun Pasir Rt. 01 Rw. 05 Desa Rancakalong', kepsek: 'CECEP NURHIDAYATTULOH', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2963437', nama: 'PKBM JEMBAR KABISA', alamat: 'DSN SELAAWI RT 2/RW 7 Desa Sukahayu,', kepsek: 'SURYANA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9999067', nama: 'PKBM ASSYARIATUL ULUUM', alamat: 'Dusun Babakan Rt.05/07 Desa Pangadegan', kepsek: 'AI NURUL HABIBAH', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2964041', nama: 'PKBM SIMPAY WARGI', alamat: 'Dusun KawungluwukRT 2RW 1, Desa Linggajaya', kepsek: 'GATOT YUNIARTA', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9934693', nama: 'PKBM BINA BHAKTI MANDIRI', alamat: 'Dusun Dustan RT.03 RW.04, Desa Cisitu', kepsek: 'ISARIS ARWIANTI', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9984831', nama: 'PKBM NUURUL HAQQ', alamat: 'Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan', kepsek: 'JAJANG ZAINAL MUTAQIN', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P2970386', nama: 'PKBM AGROFORESTY', alamat: 'Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot', kepsek: 'NENG TETI RUSMAYANTI', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+            { npsn: 'P9911127', nama: 'PKBM RAUDHOTUL JANNAH', alamat: 'Dsn. Cikuda 05/05 Desa Sukatani', kepsek: 'DEWI SRI WARTINI', pembuatan : 0, berakhir : 0, sk: 'No SK: - ' },
+        ];
+        
         let dataPD = [
             { npsn: 'P2963449', nama: 'PKBM MEKAR BUANA', kec: 'Sumedang Utara', desa: 'Kotakaler, Kebon Jati', l: 0, p: 0, verval: 'Belum' },
             { npsn: 'P9934726', nama: 'PKBM PASCA MARGA', kec: 'Sumedang Utara', desa: 'Rancamulya, Talun', l: 0, p: 0, verval: 'Belum' },
@@ -647,6 +672,7 @@
                     <td class="p-3 border-b text-center">
                         <span class="px-3 py-1 rounded-md ${getYearColorBadgeClass(d.berakhir)}">${d.berakhir}</span>
                     </td>
+                    <td class="p-3 border-b text-gray-400 font-mono text-[11px]">${d.sk}</td>
                     <td class="p-3 border-b text-center whitespace-nowrap no-print">
                         <button onclick="editIjin(${index})" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded mr-1"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button onclick="deleteRow('ijin', ${index})" class="text-rose-600 hover:text-rose-900 bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
