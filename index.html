@@ -3,1679 +3,956 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PKKS PNF SKB/PKBM - Kabupaten Sumedang 2026</title>
-    <!-- Google Fonts Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- html2pdf.js CDN for Client-side PDF Generation -->
+    <title>Disdik Sumedang - Mutu Non Formal 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* Modern Premium Theme Design (2026 SaaS Dashboard Style) */
-        :root {
-            --bg-app: #f1f5f9;
-            --sidebar-bg: #0f172a;
-            --sidebar-text: #94a3b8;
-            --sidebar-active: #38bdf8;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.15);
-            --success: #10b981;
-            --success-light: #ecfdf5;
-            --warning: #f59e0b;
-            --warning-light: #fffbeb;
-            --danger: #ef4444;
-            --danger-light: #fef2f2;
-            --border: #e2e8f0;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-card: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-
-        body {
-            background-color: var(--bg-app);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* SIDEBAR NAVIGATION (Profesional & Dinamis) */
-        aside {
-            width: 290px;
-            background-color: var(--sidebar-bg);
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 25px rgba(15, 23, 42, 0.15);
-        }
-
-        .brand-zone {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 30px;
-        }
-
-        .brand-icon-wrapper {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-name-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand-gov-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-        }
-
-        .brand-dept-title {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--sidebar-active);
-            letter-spacing: 0.3px;
-            line-height: 1.2;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar-menu a:hover {
-            color: white;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .sidebar-menu a.active {
-            color: #0f172a;
-            background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
-            font-weight: 600;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
-        }
-
-        /* SIDEBAR FOOTER (ADMIN STATUS INDICATOR) */
-        .sidebar-footer {
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: auto;
-        }
-
-        .admin-status-text {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--sidebar-text);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--danger);
-            display: inline-block;
-        }
-        .status-dot.active {
-            background-color: var(--success);
-        }
-
-        .btn-admin-action {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        .btn-admin-action:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: var(--sidebar-active);
-        }
-
-        /* MAIN CONTENT AREA */
-        main {
-            margin-left: 290px;
-            flex: 1;
-            padding: 40px;
-            max-width: 1400px;
-        }
-
-        .page-section {
-            display: none;
-            animation: smoothUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes smoothUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* TYPOGRAPHY & HEADER CONTROLS */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 20px;
-        }
-
-        .header-title-area h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .header-title-area p {
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .header-action-group {
-            display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        /* DASHBOARD METRICS CARDS */
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 35px;
-        }
-
-        .metric-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-        }
-        .m-blue::before { background-color: var(--primary); }
-        .m-green::before { background-color: var(--success); }
-        .m-orange::before { background-color: var(--warning); }
-
-        .metric-num {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1;
-        }
-
-        .metric-title {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metric-badge-icon {
-            width: 54px;
-            height: 54px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-        .b-blue { background-color: #eff6ff; color: var(--primary); }
-        .b-green { background-color: #ecfdf5; color: var(--success); }
-        .b-orange { background-color: #fffbeb; color: var(--warning); }
-
-        /* CONTENT CARDS & TABLES */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-        .full-grid { grid-template-columns: 1fr; }
-        .half-grid { grid-template-columns: 1fr 1fr; }
-
-        .card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* PREMIUM DYNAMIC BANNER */
-        .active-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .active-banner .info-block { display: flex; align-items: center; gap: 15px; }
-        .active-banner i { font-size: 20px; color: var(--sidebar-active); }
-
-        /* DATA TABLES */
-        .table-wrapper { width: 100%; overflow-x: auto; }
-        .modern-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .modern-table th {
-            background-color: #f8fafc;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 12px;
-            padding: 16px 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        .modern-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--text-main);
-        }
-        .modern-table tr:last-child td { border-bottom: none; }
-        .modern-table tr:hover td { background-color: #f8fafc; }
-
-        /* BADGES */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .badge-done { background-color: var(--success-light); color: var(--success); }
-        .badge-pending { background-color: var(--danger-light); color: var(--danger); }
-        .badge-rank { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; }
-
-        /* INTERACTIVE BUTTONS */
-        .action-btn {
-            background-color: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .action-btn:hover {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px var(--primary-glow);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-        }
-        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
-
-        .btn-print {
-            background-color: var(--sidebar-bg);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        .btn-print:hover { background-color: #1e293b; transform: translateY(-1px); }
-
-        .btn-download {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
-        }
-        .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(5, 150, 105, 0.3); }
-
-        .btn-pdf {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
-        }
-        .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3); }
-
-        /* FORM INSTRUMENT SLIDERS */
-        .form-card {
-            background-color: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .form-card label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--text-main); }
-        .form-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
-        
-        .slider-flex { display: flex; align-items: center; gap: 20px; }
-        .slider-flex input[type="range"] { flex: 1; accent-color: var(--primary); height: 6px; border-radius: 5px; cursor: pointer; }
-        
-        .val-indicator {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-            background-color: white;
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 8px;
-            min-width: 50px;
-            text-align: center;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .input-text-modern {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--text-main);
-            background-color: #ffffff;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .input-text-modern:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-glow);
-        }
-
-        /* SVG CHART STYLING */
-        .chart-box { background-color: #f8fafc; border-radius: var(--radius-md); padding: 20px; text-align: center; border: 1px solid var(--border); }
-
-        /* TOAST SYSTEM (ELEGANT CUSTOM NOTIFICATION) */
-        #toast-container {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            pointer-events: none;
-        }
-
-        .toast {
-            background-color: #1e293b;
-            color: #ffffff;
-            padding: 14px 20px;
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            min-width: 320px;
-            pointer-events: auto;
-            animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            border-left: 4px solid var(--primary);
-        }
-
-        .toast-success { border-left-color: var(--success); }
-        .toast-error { border-left-color: var(--danger); }
-        .toast-info { border-left-color: var(--primary); }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.95); }
-        }
-
-        /* ADMIN PASSWORD LOGIN MODAL */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-            transform: scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-header-icon {
-            background: linear-gradient(135deg, #ef4444, #f43f5e);
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 24px;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-        }
-
-        .modal-title {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .modal-subtitle {
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .password-input-wrapper {
-            position: relative;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .password-toggle-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn-modal-cancel {
-            flex: 1;
-            background-color: var(--bg-app);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn-modal-cancel:hover {
-            background-color: var(--border);
-        }
-
-        .btn-modal-submit {
-            flex: 1;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #ffffff;
-            border: none;
-            padding: 12px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn-modal-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.35);
-        }
-
-        /* PRINT STYLING & MEDIA QUERY */
+        /* CSS Print Optimization */
         @media print {
-            aside, .sidebar-menu, .header-action-group, .action-btn, .btn-submit, .badge-pending, .badge-done, .modal-overlay, #toast-container, .sidebar-footer {
-                display: none !important;
-            }
-            body {
-                background-color: #ffffff !important;
-                color: #000000 !important;
-            }
-            main {
-                margin-left: 0 !important;
-                padding: 0 !important;
-                width: 100% !important;
-            }
-            .card {
-                box-shadow: none !important;
-                border: 1px solid #94a3b8 !important;
-                page-break-inside: avoid;
-                margin-bottom: 20px !important;
-            }
-            .chart-box {
-                border: 1px solid #94a3b8 !important;
-            }
-            .active-banner {
-                background: none !important;
-                border: 1px solid #000000 !important;
-                color: #000000 !important;
-            }
-            .active-banner span, .active-banner strong {
-                color: #000000 !important;
-            }
+            body { background: white; color: black; }
+            nav, button, .no-print { display: none !important; }
+            main { padding: 0 !important; margin: 0 !important; }
+            .shadow-sm, .rounded-xl { border: none !important; box-shadow: none !important; }
+            table { font-size: 10px !important; width: 100% !important; border-collapse: collapse !important; }
+            th, td { border: 1px solid #ddd !important; padding: 6px !important; }
+            section { display: block !important; }
+            .hidden { display: none !important; }
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <!-- SIDEBAR NAV KEKINIAN & PROFESIONAL -->
-    <aside>
-        <div class="brand-zone">
-            <!-- Vector Emblem of Sumedang Government Structure -->
-            <div class="brand-icon-wrapper">
-                <svg class="brand-icon-svg" viewBox="0 0 100 100" width="46" height="46" style="background: #1e293b; border-radius: 8px; padding: 3px;">
-                    <!-- Shield Background -->
-                    <path d="M 50 10 Q 80 10 80 45 Q 80 80 50 90 Q 20 80 20 45 Q 20 10 50 10 Z" fill="#0f766e" stroke="#fbbf24" stroke-width="3.5"/>
-                    <!-- Lingga Monument representing Sumedang -->
-                    <rect x="46" y="34" width="8" height="30" fill="#fbbf24" rx="1" />
-                    <polygon points="42,34 58,34 50,21" fill="#fbbf24" />
-                    <!-- Pedestal/Base -->
-                    <rect x="38" y="64" width="24" height="6" fill="#f59e0b" rx="1" />
-                    <rect x="34" y="70" width="32" height="4" fill="#d97706" rx="1" />
-                    <!-- Crown/Sun rays circle at top -->
-                    <circle cx="50" cy="21" r="3.5" fill="#ffffff" />
-                </svg>
-            </div>
-            <div class="brand-name-group">
-                <div class="brand-gov-title">DINAS PENDIDIKAN</div>
-                <div class="brand-dept-title">KABUPATEN SUMEDANG</div>
-            </div>
+    <nav class="bg-[#0b1e33] text-white px-6 py-3 flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-amber-500 rounded flex items-center justify-center font-bold text-xs text-slate-900">DISDIK</div>
+            <span class="font-semibold text-sm tracking-wide">DISDIK SUMEDANG <br><span class="text-xs text-gray-400">Sistem Penjaminan Mutu 2026</span></span>
         </div>
-        <ul class="sidebar-menu">
-            <li><a id="nav-beranda" class="active" onclick="showPage('beranda')"><i class="fa-solid fa-chart-pie"></i> Beranda Laporan</a></li>
-            <li><a id="nav-satuan" onclick="showPage('satuan')"><i class="fa-solid fa-school"></i>Satpen SKB/PKBM</a></li>
-            <li><a id="nav-instrumen" onclick="showPage('instrumen')"><i class="fa-solid fa-pen-to-square"></i> Instrumen Isian</a></li>
-        </ul>
-
-        <!-- STATUS SESI ADMIN DI SIDEBAR -->
-        <div class="sidebar-footer">
-            <div class="admin-status-text" id="admin-status-lbl">
-                <span class="status-dot" id="admin-status-dot"></span>
-                <span>Mode Pengunjung (Read-Only)</span>
-            </div>
-            <button class="btn-admin-action" id="btn-admin-lock" onclick="toggleAdminLogin()">
-                <i class="fa-solid fa-lock"></i> Login Admin
-            </button>
+        <div class="flex space-x-1">
+            <button onclick="switchTab('beranda')" id="nav-beranda" class="px-3 py-2 rounded text-xs font-medium transition bg-blue-600 text-white">Beranda</button>
+            <button onclick="switchTab('akreditasi')" id="nav-akreditasi" class="px-3 py-2 rounded text-xs font-medium transition text-gray-300 hover:bg-slate-800">Data Akreditasi</button>
+            <button onclick="switchTab('ijin-operasional')" id="nav-ijin-operasional" class="px-3 py-2 rounded text-xs font-medium transition text-gray-300 hover:bg-slate-800">Ijin Operasional</button>
+            <button onclick="switchTab('peserta-didik')" id="nav-peserta-didik" class="px-3 py-2 rounded text-xs font-medium transition text-gray-300 hover:bg-slate-800">Peserta Didik SPMB</button>
+            <button onclick="switchTab('e-rapor')" id="nav-e-rapor" class="px-3 py-2 rounded text-xs font-medium transition text-gray-300 hover:bg-slate-800">E-Rapor & SNP</button>
         </div>
-    </aside>
+    </nav>
 
-    <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
-    <div id="toast-container"></div>
+    <header id="main-header" class="bg-white mx-6 mt-6 p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col items-center text-center">
+        <div class="w-36 h-36 -center justify-center-logo"><img src="logo.png" alt="Logo Kabupaten Sumedang"></div>
+        <h1 class="text-xl font-bold text-[#1e3a8a] tracking-wide">DINAS PENDIDIKAN KABUPATEN SUMEDANG</h1>
+        <h2 class="text-sm font-semibold text-gray-700 mt-1 uppercase">Standar Pengelolaan Satuan Pendidikan Non Formal <br> Penyelenggaraan Pendidikan Kesetaraan SKB/PKBM Tahun 2026</h2>
+        <p class="text-xs italic text-gray-500 mt-2">"MANAJEMEN BERBASIS SEKOLAH (MBS) DAN PENGELOLAAN SISTEM INFORMASI (DIGITALISASI)"</p>
+    </header>
 
-    <!-- ADMIN PASSWORD OVERLAY MODAL -->
-    <div class="modal-overlay" id="admin-modal">
-        <div class="modal-card">
-            <div class="modal-header-icon">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <h2 class="modal-title">Otorisasi Admin</h2>
-            <p class="modal-subtitle">Pengisian instrumen dan pengeditan identitas sekolah hanya dapat dilakukan oleh Admin Dinas Pendidikan.</p>
+    <main id="print-area-dashboard" class="flex-1 p-6">
+
+        <section id="tab-beranda" class="space-y-6">
             
-            <div class="password-input-wrapper">
-                <input type="password" id="admin-password-input" class="input-text-modern" placeholder="Masukkan Password Admin..." onkeydown="handlePasswordKeydown(event)">
-                <span class="password-toggle-icon" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye" id="eye-icon"></i></span>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-modal-cancel" onclick="closeAdminModal()">Batal</button>
-                <button class="btn-modal-submit" onclick="submitAdminPassword()">Verifikasi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN VIEW CONTAINER -->
-    <main>
-
-        <!-- SECTION 1: BERANDA / DASHBOARD UTAMA -->
-        <section id="page-beranda" class="page-section active">
-            <div class="page-header">
-                <div class="header-title-area">
-                    <h1>PKKS Satuan Pendidikan PNF SKB/PKBM</h1>
-                    <p>Penilaian Kinerja Kepala Sekolah — Dinas Pendidikan Kabupaten Sumedang Tahun 2026</p>
-                </div>
-                <div class="header-action-group">
-                    <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Unduh PDF</button>
-                    <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Laporan</button>
-                    <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh Data CSV</button>
+            <div class="flex justify-between items-center no-print">
+                <h3 class="text-lg font-bold text-gray-800">Ringkasan Statistik Penjaminan Mutu</h3>
+                <div class="flex space-x-2">
+                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak Halaman</button>
+                    <button onclick="downloadDashboardPDF()" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF Beranda</button>
                 </div>
             </div>
 
-            <!-- Kartu Metrik Ringkasan -->
-            <div class="metrics-row">
-                <div class="metric-card m-blue">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 no-print">
+                <div onclick="switchTab('akreditasi')" class="bg-blue-600 text-white p-4 rounded-xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-blue-700 transition">
                     <div>
-                        <div class="metric-num">32</div>
-                        <div class="metric-title">Total Lembaga</div>
+                        <h3 class="font-semibold text-base">Data Akreditasi</h3>
+                        <p class="text-[11px] text-blue-100">Status akreditasi lembaga</p>
                     </div>
-                    <div class="metric-badge-icon b-blue"><i class="fa-solid fa-landmark"></i></div>
+                    <i class="fa-solid fa-graduation-cap text-2xl opacity-50"></i>
                 </div>
-                <div class="metric-card m-green">
+                <div onclick="switchTab('ijin-operasional')" class="bg-amber-600 text-white p-4 rounded-xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-amber-700 transition">
                     <div>
-                        <div class="metric-num" id="dash-progress">0/32</div>
-                        <div class="metric-title">Telah Dievaluasi</div>
+                        <h3 class="font-semibold text-base">Ijin Operasional</h3>
+                        <p class="text-[11px] text-amber-100">Masa berlaku ijin lembaga</p>
                     </div>
-                    <div class="metric-badge-icon b-green"><i class="fa-solid fa-clipboard-check"></i></div>
+                    <i class="fa-solid fa-file-signature text-2xl opacity-50"></i>
                 </div>
-                <div class="metric-card m-orange">
+                <div onclick="switchTab('peserta-didik')" class="bg-emerald-600 text-white p-4 rounded-xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-emerald-700 transition">
                     <div>
-                        <div class="metric-num" id="dash-avg">0.0</div>
-                        <div class="metric-title">Rata-Rata Wilayah</div>
+                        <h3 class="font-semibold text-base">Peserta Didik SPMB</h3>
+                        <p class="text-[11px] text-emerald-100">Rekap ATS/APS & verval</p>
                     </div>
-                    <div class="metric-badge-icon b-orange"><i class="fa-solid fa-chart-line"></i></div>
+                    <i class="fa-solid fa-users text-2xl opacity-50"></i>
+                </div>
+                <div onclick="switchTab('e-rapor')" class="bg-rose-600 text-white p-4 rounded-xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-rose-700 transition">
+                    <div>
+                        <h3 class="font-semibold text-base">E-Rapor & SNP</h3>
+                        <p class="text-[11px] text-rose-100">Capaian Standar Nasional</p>
+                    </div>
+                    <i class="fa-solid fa-chart-line text-2xl opacity-50"></i>
                 </div>
             </div>
 
-            <div class="content-grid">
-                <!-- Grafik Utama -->
-                <div class="card">
-                    <div class="card-title" id="chart-main-title"><i class="fa-solid fa-chart-bar" style="color:var(--primary)"></i> Grafik Kompetensi Satuan Terpilih</div>
-                    <div class="chart-box">
-                        <svg viewBox="0 0 500 260" width="100%">
-                            <!-- Grid Lines -->
-                            <line x1="50" y1="40" x2="470" y2="40" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="90" x2="470" y2="90" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="140" x2="470" y2="140" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="190" x2="470" y2="190" stroke="#cbd5e1" stroke-width="1.5" />
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs font-semibold text-gray-500 block uppercase">Total Lembaga</span>
+                    <span id="stat-total-lembaga" class="text-3xl font-bold text-gray-800">0</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs font-semibold text-gray-500 block uppercase">Total Peserta Didik</span>
+                    <span id="stat-total-pd" class="text-3xl font-bold text-gray-800">0</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs font-semibold text-gray-500 block uppercase">Status Verval</span>
+                    <span id="stat-verval-percent" class="text-3xl font-bold text-gray-800">0%</span>
+                    <span id="stat-verval-detail" class="text-xs text-gray-400 block mt-1">0 sudah - 0 belum</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <span class="text-xs font-semibold text-gray-500 block uppercase">Lembaga E-Rapor (Lengkap)</span>
+                    <span id="stat-lembaga-erapor" class="text-3xl font-bold text-gray-800">0</span>
+                </div>
+            </div>
 
-                            <!-- Y Labels -->
-                            <text x="35" y="44" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">100</text>
-                            <text x="35" y="94" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">50</text>
-                            <text x="35" y="144" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">25</text>
-                            <text x="35" y="194" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">0</text>
-
-                            <!-- Gradient Bars Dynamic -->
-                            <rect id="g-manajerial" x="85" y="190" width="48" height="0" fill="#3b82f6" rx="6" />
-                            <text id="t-manajerial" x="109" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-kewirausahaan" x="185" y="190" width="48" height="0" fill="#10b981" rx="6" />
-                            <text id="t-kewirausahaan" x="209" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-supervisi" x="285" y="190" width="48" height="0" fill="#f59e0b" rx="6" />
-                            <text id="t-supervisi" x="309" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-sosial" x="385" y="190" width="48" height="0" fill="#8b5cf6" rx="6" />
-                            <text id="t-sosial" x="409" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <!-- X Labels -->
-                            <text x="109" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Manajerial</text>
-                            <text x="209" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Kewirausahaan</text>
-                            <text x="309" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Supervisi</text>
-                            <text x="409" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Sosial/Prof</text>
-                        </svg>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-sm font-bold text-gray-700 mb-4 uppercase tracking-wide">Laporan Data Akreditasi</h3>
+                    <div class="h-64 flex justify-center items-center"><canvas id="chartAkreditasi"></canvas></div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-sm font-bold text-gray-700 mb-4 uppercase tracking-wide">Laporan Peserta Didik SPMB ATS/APS</h3>
+                    <div class="grid grid-cols-2 gap-2 h-64">
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-medium text-gray-500 mb-2">Komposisi Gender</span>
+                            <div class="w-full h-48"><canvas id="chartGender"></canvas></div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-medium text-gray-500 mb-2">Status Verval</span>
+                            <div class="w-full h-48"><canvas id="chartVerval"></canvas></div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Leaderboard Samping -->
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-award" style="color:#f59e0b"></i> Peringkat 3 Tertinggi</div>
-                    <div class="table-wrapper">
-                        <table class="modern-table">
-                            <thead>
-                                <tr>
-                                    <th>Nama Lembaga</th>
-                                    <th>Skor</th>
-                                    <th>Predikat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="top-schools-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-sm font-bold text-gray-700 mb-4 uppercase tracking-wide">Laporan E-Rapor & 8 SNP SKB/PKBM (Rata-rata Capaian Nasional %)</h3>
+                <div class="h-72"><canvas id="chartSNP"></canvas></div>
             </div>
         </section>
 
-        <!-- SECTION 2: DAFTAR SATUAN PENDIDIKAN SKB/PKBM -->
-        <section id="page-satuan" class="page-section">
-            <div class="page-header">
-                <div class="header-title-area">
-                    <h1>Data Satuan Pendidikan PNF</h1>
-                    <p>Daftar Satuan Pendidikan (SKB/PKBM) di wilayah binaan Dinas Pendidikan Kabupaten Sumedang.</p>
-                </div>
-                <div class="header-action-group">
-                    <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Unduh PDF Rekap</button>
-                    <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh Format CSV</button>
+
+        <section id="tab-akreditasi" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-800">Data Akreditasi Lembaga</h3>
+                <div class="flex space-x-2">
+                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+                    <button onclick="downloadPDF('print-akreditasi', 'Data_Akreditasi_Lembaga')" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF</button>
+                    <button onclick="openAddModal('modal-akreditasi', 'form-akreditasi')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs font-medium"><i class="fa-solid fa-plus mr-1"></i> Input Data Baru</button>
                 </div>
             </div>
-
-            <div class="card" style="margin-top: 30px;">
-                <div class="table-wrapper">
-                    <table class="modern-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>NPSN</th>
-                                <th>Nama Satuan PKBM</th>
-                                <th>Kepala Sekolah</th>
-                                <th>Alamat Sekolah</th>
-                                <th>Status Instrumen</th>
-                                <th>Skor Akhir</th>
-                                <th>Aksi Kerja</th>
-                            </tr>
-                        </thead>
-                        <tbody id="schools-tbody"></tbody>
-                    </table>
-                </div>
+            <div id="print-akreditasi" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto p-2">
+                <h2 class="text-center font-bold text-sm text-gray-800 mb-3 uppercase tracking-wide hidden print:block">Laporan Penjaminan Mutu: Data Akreditasi Lembaga 2026</h2>
+                <table class="w-full text-left border-collapse text-xs min-w-[1000px]">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold uppercase">
+                            <th class="p-3 text-center">No</th>
+                            <th class="p-3">NPSN</th>
+                            <th class="p-3">Nama Sekolah</th>
+                            <th class="p-3">Alamat</th>
+                            <th class="p-3">Kepala Sekolah</th>
+                            <th class="p-3 text-center">Akreditasi</th>
+                            <th class="p-3 text-center">Tahun Akre</th>
+                            <th class="p-3 text-center">Tahun Berakhir</th>
+                            <th class="p-3">Nomor SK</th>
+                            <th class="p-3 text-center no-print">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-akreditasi-body" class="text-gray-700 divide-y divide-gray-100"></tbody>
+                </table>
             </div>
         </section>
 
-        <!-- SECTION 3: INSTRUMEN EVALUASI ISIAN -->
-        <section id="page-instrumen" class="page-section">
-            <div class="active-banner" id="current-school-banner">
-                <div class="info-block">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>Sistem Belum Siap. Silakan tentukan target satuan di menu <strong>Satpen SKB/PKBM</strong> terlebih dahulu.</span>
+
+        <section id="tab-ijin-operasional" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-800">Data Ijin Operasional Lembaga</h3>
+                <div class="flex space-x-2">
+                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+                    <button onclick="downloadPDF('print-ijin', 'Data_Ijin_Operasional')" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF</button>
+                    <button onclick="openAddModal('modal-ijin', 'form-ijin')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded text-xs font-medium"><i class="fa-solid fa-plus mr-1"></i> Input Data Baru</button>
                 </div>
             </div>
+            <div id="print-ijin" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto p-2">
+                <h2 class="text-center font-bold text-sm text-gray-800 mb-3 uppercase tracking-wide hidden print:block">Laporan Penjaminan Mutu: Data Ijin Operasional Lembaga 2026</h2>
+                <table class="w-full text-left border-collapse text-xs min-w-[1000px]">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold uppercase">
+                            <th class="p-3 text-center">No</th>
+                            <th class="p-3">NPSN</th>
+                            <th class="p-3">Nama Lembaga</th>
+                            <th class="p-3">Alamat</th>
+                            <th class="p-3">Kepala Sekolah</th>
+                            <th class="p-3 text-center">Tahun Pembuatan</th>
+                            <th class="p-3 text-center">Tahun Berakhir</th>
+                            <th class="p-3 text-center no-print">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-ijin-body" class="text-gray-700 divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
+        </section>
 
-            <div class="page-header" style="margin-bottom: 20px;">
-                <div class="header-title-area">
-                    <h1>Instrumen Penilaian Kinerja Kepala Sekolah (PKKS) PNF SKB/PKBM</h1>
-                    <p>Sesuaikan isian data identitas serta indikator kinerja berdasarkan dokumen bukti fisik riil di lapangan.</p>
+
+        <section id="tab-peserta-didik" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-800">Data Peserta Didik SPMB ATS/APS</h3>
+                <div class="flex space-x-2">
+                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+                    <button onclick="downloadPDF('print-pd', 'Data_Peserta_Didik')" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF</button>
+                    <button onclick="openAddModal('modal-pd', 'form-pd')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded text-xs font-medium"><i class="fa-solid fa-plus mr-1"></i> Input Data Baru</button>
                 </div>
             </div>
+            <div id="print-pd" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto p-2">
+                <h2 class="text-center font-bold text-sm text-gray-800 mb-3 uppercase tracking-wide hidden print:block">Laporan Rekapitulasi: Data Peserta Didik Kesetaraan 2026</h2>
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold uppercase">
+                            <th class="p-3 text-center">No</th>
+                            <th class="p-3">NPSN</th>
+                            <th class="p-3">Nama Sekolah</th>
+                            <th class="p-3">Kecamatan</th>
+                            <th class="p-3">Zonasi Kel/Desa</th>
+                            <th class="p-3 text-center">Laki-Laki</th>
+                            <th class="p-3 text-center">Perempuan</th>
+                            <th class="p-3 text-center">Jumlah</th>
+                            <th class="p-3 text-center">Verval</th>
+                            <th class="p-3 text-center no-print">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-pd-body" class="text-gray-700 divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
+        </section>
 
-            <!-- KARTU FORM IDENTITAS SEKOLAH (DINAMIS & DAPAT DIEDIT) -->
-            <div class="card" id="form-identitas-card" style="margin-bottom: 24px;">
-                <div class="card-title" style="color: var(--primary); margin-bottom: 18px;">
-                    <i class="fa-solid fa-id-card"></i> Identitas Satuan PKBM Terpilih
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nama Satuan PKBM</label>
-                        <input type="text" id="input-nama" class="input-text-modern" style="font-weight: 600;" placeholder="Nama Satuan PKBM...">
-                    </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nomor Pokok Sekolah Nasional (NPSN)</label>
-                        <input type="text" id="input-npsn" class="input-text-modern" style="font-family: monospace; font-weight: 600; letter-spacing: 0.5px;" placeholder="Masukkan NPSN...">
-                    </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nama Kepala Sekolah / PKBM</label>
-                        <input type="text" id="input-kepala" class="input-text-modern" placeholder="Nama Kepala Sekolah...">
-                    </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Alamat Operasional Lembaga</label>
-                        <input type="text" id="input-alamat" class="input-text-modern" placeholder="Alamat Lengkap Satuan...">
-                    </div>
+
+        <section id="tab-e-rapor" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-800">Data E-Rapor & 8 Standar Nasional Pendidikan</h3>
+                <div class="flex space-x-2">
+                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+                    <button onclick="downloadPDF('print-erapor', 'Data_Capaian_ERapor_SNP')" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF</button>
+                    <button onclick="openAddModal('modal-erapor', 'form-erapor')" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded text-xs font-medium"><i class="fa-solid fa-plus mr-1"></i> Input Data Baru</button>
                 </div>
             </div>
-
-            <div class="content-grid half-grid">
-                <!-- Kolom Kiri Form -->
-                <div>
-                    <div class="card">
-                        <div class="card-title" style="color:var(--primary)"><i class="fa-solid fa-folder-tree"></i> I. Bidang Manajerial</div>
-                        <div class="form-card">
-                            <label>1. Penyusunan RKJM & RKT Lembaga</label>
-                            <div class="form-desc">Ketersediaan program kerja jangka panjang dan tahunan yang melibatkan pamong belajar.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-m1" min="0" max="100" value="0" oninput="syncScoreText('m1')">
-                                <span class="val-indicator" id="txt-m1">0</span>
-                            </div>
-                        </div>
-                        <div class="form-card">
-                            <label>2. Tata Kelola Sarana & Warga Belajar</label>
-                            <div class="form-desc">Optimalisasi ruang komputer asesmen kesetaraan dan ketersediaan administrasi modul.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-m2" min="0" max="100" value="0" oninput="syncScoreText('m2')">
-                                <span class="val-indicator" id="txt-m2">0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-title" style="color:var(--success)"><i class="fa-solid fa-seedling"></i> II. Bidang Kewirausahaan</div>
-                        <div class="form-card">
-                            <label>3. Aliansi Strategis & MoU DUDI</label>
-                            <div class="form-desc">Jejaring kemitraan magang kerja dan penyaluran lulusan kursus / warga belajar paket.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-k1" min="0" max="100" value="0" oninput="syncScoreText('k1')">
-                                <span class="val-indicator" id="txt-k1">0</span>
-                            </div>
-                        </div>
-                        <div class="form-card">
-                            <label>4. Inovasi Inkubasi Usaha Mandiri</label>
-                            <div class="form-desc">Pengembangan unit edupreneurship internal sebagai penopang finansial operasional PKBM.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-k2" min="0" max="100" value="0" oninput="syncScoreText('k2')">
-                                <span class="val-indicator" id="txt-k2">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kolom Kanan Form -->
-                <div>
-                    <div class="card">
-                        <div class="card-title" style="color:var(--warning)"><i class="fa-solid fa-users-viewfinder"></i> III. Bidang Supervisi</div>
-                        <div class="form-card">
-                            <label>5. Supervisi Klinis Dokumen & Pembelajaran</label>
-                            <div class="form-desc">Pelaksanaan pemantauan perangkat ajar mandiri tutor serta observasi metode tutorial.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-s1" min="0" max="100" value="0" oninput="syncScoreText('s1')">
-                                <span class="val-indicator" id="txt-s1">0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-title" style="color:#8b5cf6"><i class="fa-solid fa-hand-holding-heart"></i> IV. Sosial & Profesional PNF</div>
-                        <div class="form-card">
-                            <label>6. Penuntasan Anak Putus Sekolah (ATS)</label>
-                            <div class="form-desc">Aksi nyata penarikan dan pendampingan anak marjinal kembali ke ekosistem pendidikan.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-p1" min="0" max="100" value="0" oninput="syncScoreText('p1')">
-                                <span class="val-indicator" id="txt-p1">0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="text-align: right; margin-top: 10px;">
-                        <button class="btn-submit" onclick="saveScores()"><i class="fa-solid fa-cloud-arrow-up"></i> Finalisasi & Terapkan Skor</button>
-                    </div>
-                </div>
+            <div id="print-erapor" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto p-2">
+                <h2 class="text-center font-bold text-sm text-gray-800 mb-3 uppercase tracking-wide hidden print:block">Laporan Capaian Evaluasi: E-Rapor Dan 8 SNP Lembaga 2026</h2>
+                <table class="w-full text-left border-collapse text-xs min-w-[1200px]">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold uppercase">
+                            <th class="p-3 text-center" rowspan="2">No</th>
+                            <th class="p-3" rowspan="2">NPSN</th>
+                            <th class="p-3" rowspan="2">Nama Lembaga</th>
+                            <th class="p-3 text-center border-b" colspan="8">Standar Nasional Pendidikan (%)</th>
+                            <th class="p-3 text-center" rowspan="2">Keterisian</th>
+                            <th class="p-3 text-center no-print" rowspan="2">Aksi</th>
+                        </tr>
+                        <tr class="bg-gray-100 text-gray-600 font-medium text-[10px]">
+                            <th class="p-2 border-r">SKL</th>
+                            <th class="p-2 border-r">S.Isi</th>
+                            <th class="p-2 border-r">S.Proses</th>
+                            <th class="p-2 border-r">S.Penilaian</th>
+                            <th class="p-2 border-r">S.PTK</th>
+                            <th class="p-2 border-r">S.Sapras</th>
+                            <th class="p-2 border-r">S.Pengelolaan</th>
+                            <th class="p-2">S.Pembiayaan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-erapor-body" class="text-gray-700 divide-y divide-gray-100"></tbody>
+                </table>
             </div>
         </section>
 
     </main>
 
-    <!-- CORE SCRIPT ENGINE DATA MANAGEMENT -->
+    <div id="modal-akreditasi" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg space-y-4">
+            <h4 id="title-modal-akreditasi" class="text-base font-bold text-gray-800 border-b pb-2">Tambah Data Akreditasi</h4>
+            <form id="form-akreditasi" onsubmit="saveAkreditasi(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">NPSN</label><input type="text" id="akr-npsn" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Nama Sekolah</label><input type="text" id="akr-nama" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div><label class="block font-medium mb-1">Alamat</label><input type="text" id="akr-alamat" required class="w-full p-2 border rounded"></div>
+                <div><label class="block font-medium mb-1">Kepala Sekolah</label><input type="text" id="akr-kepsek" required class="w-full p-2 border rounded"></div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div><label class="block font-medium mb-1">Akreditasi</label>
+                        <select id="akr-grade" onchange="handleGradeChange()" class="w-full p-2 border rounded"><option>A</option><option>B</option><option>C</option><option>TT</option><option>Belum</option></select>
+                    </div>
+                    <div><label class="block font-medium mb-1">Tahun Akre</label><input type="number" id="akr-tahun" class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Berakhir</label><input type="number" id="akr-akhir" class="w-full p-2 border rounded"></div>
+                </div>
+                <div><label class="block font-medium mb-1">Nomor SK</label><input type="text" id="akr-sk" class="w-full p-2 border rounded"></div>
+                <div class="flex justify-end space-x-2 pt-3 border-t">
+                    <button type="button" onclick="closeModal('modal-akreditasi')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Batal</button>
+                    <button type="submit" id="btn-submit-akreditasi" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-ijin" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg space-y-4">
+            <h4 id="title-modal-ijin" class="text-base font-bold text-gray-800 border-b pb-2">Tambah Data Ijin Operasional</h4>
+            <form id="form-ijin" onsubmit="saveIjin(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">NPSN</label><input type="text" id="ijin-npsn" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Nama Lembaga</label><input type="text" id="ijin-nama" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div><label class="block font-medium mb-1">Alamat</label><input type="text" id="ijin-alamat" required class="w-full p-2 border rounded"></div>
+                <div><label class="block font-medium mb-1">Kepala Sekolah</label><input type="text" id="ijin-kepsek" required class="w-full p-2 border rounded"></div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">Tahun Pembuatan</label><input type="number" id="ijin-pembuatan" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Tahun Berakhir</label><input type="number" id="ijin-berakhir" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div class="flex justify-end space-x-2 pt-3 border-t">
+                    <button type="button" onclick="closeModal('modal-ijin')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Batal</button>
+                    <button type="submit" id="btn-submit-ijin" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded font-medium">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-pd" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg space-y-4">
+            <h4 id="title-modal-pd" class="text-base font-bold text-gray-800 border-b pb-2">Tambah Data Peserta Didik</h4>
+            <form id="form-pd" onsubmit="savePD(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">NPSN</label><input type="text" id="pd-npsn" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Nama Sekolah</label><input type="text" id="pd-nama" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">Kecamatan</label><input type="text" id="pd-kec" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Zonasi Desa</label><input type="text" id="pd-desa" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div><label class="block font-medium mb-1">Laki-Laki</label><input type="number" id="pd-l" min="0" class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Perempuan</label><input type="number" id="pd-p" min="0" class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Status Verval</label>
+                        <select id="pd-verval" class="w-full p-2 border rounded"><option>Sudah</option><option>Belum</option></select>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-2 pt-3 border-t">
+                    <button type="button" onclick="closeModal('modal-pd')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Batal</button>
+                    <button type="submit" id="btn-submit-pd" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-medium">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-erapor" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-lg shadow-lg space-y-4">
+            <h4 id="title-modal-erapor" class="text-base font-bold text-gray-800 border-b pb-2">Tambah Data Capaian E-Rapor SNP</h4>
+            <form id="form-erapor" onsubmit="saveERapor(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-medium mb-1">NPSN</label><input type="text" id="rep-npsn" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">Nama Lembaga</label><input type="text" id="rep-nama" required class="w-full p-2 border rounded"></div>
+                </div>
+                <p class="font-semibold text-gray-700 pt-1">Isi Nilai Standar (%) & Keterisian :</p>
+                <div class="grid grid-cols-4 gap-2">
+                    <div><label class="block font-medium mb-1">SKL</label><input type="number" id="s-skl" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Isi</label><input type="number" id="s-isi" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Proses</label><input type="number" id="s-pro" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Penilaian</label><input type="number" id="s-pen" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. PTK</label><input type="number" id="s-ptk" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Sapras</label><input type="number" id="s-sap" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Kelola</label><input type="number" id="s-man" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                    <div><label class="block font-medium mb-1">S. Biaya</label><input type="number" id="s-bia" min="0" max="100" required class="w-full p-2 border rounded"></div>
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Status Keterisian E-Rapor</label>
+                    <select id="rep-keterisian" class="w-full p-2 border rounded bg-gray-50 font-semibold text-gray-800">
+                        <option value="LENGKAP">LENGKAP</option>
+                        <option value="BELUM LENGKAP">BELUM LENGKAP</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2 pt-3 border-t">
+                    <button type="button" onclick="closeModal('modal-erapor')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Batal</button>
+                    <button type="submit" id="btn-submit-erapor" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded font-medium">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        const namaPKBMMaster = [
-            "PKBM MEKAR BUANA", "PKBM PASCA MARGA", "PKBM MULYASARI SEJATI", "PKBM AL-AMANAH", 
-            "PKBM MENTARI MADANI", "PKBM MENTARI KREATIF MANDIRI", "PKBM CENDIKIA PURNAMA", "PKBM TARBIYATUL UMMAH",
-            "PKBM CIGEMBONG", "PKBM PELITA INSANI", "PKBM PANDAWA", "PKBM MAHARANI",
-            "PKBM SRIKANDI", "PKBM AL GHOFUR SITURAJA", "PKBM AT-TAYIBAH", "PKBM CERDAS KARYA",
-            "PKBM PRIMAGAMA", "PKBM ACTUAL SEJAHTERA", "PKBM AS-SALAAM", "PKBM CENDEKIA",
-            "PKBM Generasi Khoiru Ummah", "PKBM IGI SUMEDANG", "PKBM NURUL HUDA", "PKBM SHOHIBUL QURAN",
-            "PKBM AL QOSIMMIYAH", "PKBM JEMBAR KABISA", "PKBM ASSYARIATUL ULUUM", "PKBM SIMPAY WARGI",
-            "PKBM BINA BHAKTI MANDIRI", "PKBM NUURUL HAQQ", "PKBM AGROFORESTY", "PKBM RAUDHOTUL JANNAH"
+        // --- 35 DATA SATUAN PENDIDIKAN REALISTIS ---
+        let dataAkreditasi = [
+            { npsn: 'P2963449', nama: 'PKBM MEKAR BUANA', alamat: 'Jl. Angkrek No.98 Kel.Kotakaler', kepsek: 'EGI ZAENAL MUTAQIEN', grade: 'B', tahun: 2017, akhir: 2026, sk: 'No SK: - (Bukan Program Kesetaraan)' },
+            { npsn: 'P9934726', nama: 'PKBM PASCA MARGA', alamat: 'Jl. KLK No.72 Rt2/Rw2,Desa.Rancamulya', kepsek: 'DEDEH KURAESIN', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/2025' },
+            { npsn: 'P9952581', nama: 'PKBM MULYASARI SEJATI', alamat: 'Dsn. Kadapugur Rt1/Rw6 Desa Mulyasari', kepsek: 'GRACY MEILANITA', grade: 'A', tahun: 2024, akhir: 2029, sk: 'No SK: 120/BAN-PDM/2025' },
+            { npsn: 'P9999789', nama: 'PKBM AL-AMANAH', alamat: 'Jl. Angkrek Gg. Karyawan II Kel. Situ', kepsek: 'DEDI MUHAMMAD ISHAK', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/2025' },
+            { npsn: 'P9984783', nama: 'PKBM MENTARI MADANI', alamat: 'Prm Jatihurip Blok 9 Desa Jatihurip', kepsek: 'YANA SATRIANA', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/2025' },
+            { npsn: 'P2970750', nama: 'PKBM MENTARI KREATIF MANDIRI', alamat: 'Jl Serma Muhtar NO 97 RT 1RW 7,Kel. Situ', kepsek: 'ARIF FIRMAN', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P2971163', nama: 'PKBM CENDIKIA PURNAMA', alamat: 'Jln. 11 April No. 07 Tegalkalong Kel. Kota Kaler', kepsek: 'ERWIN SUHERLAN', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P2963445', nama: 'PKBM TARBIYATUL UMMAH', alamat: 'Dsn Cijengkol Rt 1/Rw 4,Desa Cikoneng', kepsek: 'NYAI SUMIATI', grade: 'A', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9968108', nama: 'PKBM CIGEMBONG', alamat: 'Dsn. Cigembong RT 1/RW 3, Desa Cikondang', kepsek: 'RIFIN KUSTIAN', grade: 'A', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9984832', nama: 'PKBM PELITA INSANI', alamat: 'Jl Pangeran Bungsu No.01 RT1/RW4 Desa Cisarua ', kepsek: 'DADANG SUHENRA', grade: 'C', tahun: 2017, akhir: 2027, sk: 'No SK: 122/BAN PAUD DAN PNF/AKR/2022' },
+            { npsn: 'P2970545', nama: 'PKBM PANDAWA', alamat: 'Dusun Cibolang RT2/RW3 Desa Kebon Kalapa', kepsek: 'LILIS SUWANGSIH', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P9952443', nama: 'PKBM MAHARANI', alamat: 'Jln. Raya Situraja No. 163-164, RT/RW 4/03 Ds. Situraja', kepsek: 'TATANG JUWITA', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9997402', nama: 'PKBM SRIKANDI', alamat: 'Jalan. Wirahadikusumah No.19 Desa SukatalI', kepsek: 'WAWAN HADI MULYANA', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9952442', nama: 'PKBM AL GHOFUR SITURAJA', alamat: 'Kampung Tarikolot RT 02/04 Desa Situraja', kepsek: 'ELIS TARYAMAH', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P2963429', nama: 'PKBM AT-TAYIBAH', alamat: 'Dsn. Pakemitan, RT.02 RW.05 Desa Situraja', kepsek: 'M. FARID TAUFIQURROHMAN', grade: 'Belum', tahun: 2024, akhir: 2029, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P2970650', nama: 'PKBM CERDAS KARYA', alamat: 'Dusun Cimuruy Rt. 003 Rw. 001 Desa Mekarmulya', kepsek: 'SARSA WITARSA', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P2970727', nama: 'PKBM PRIMAGAMA', alamat: 'DSN CIJATI HILIR RT 01/RW 06 Desa Jatimekar', kepsek: 'ECIN KURASESIN', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi ' },
+            { npsn: 'P9984552', nama: 'PKBM ACTUAL SEJAHTERA', alamat: 'Jl. Pangeran Geusan Ulun No. 125 Sumedang RT 1/RW 13 Kel. Kota Kulon', kepsek: 'HADI NUGRAHA', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P2963439', nama: 'PKBM AS-SALAAM', alamat: 'Dusun SingkupRT 1RW 1 Desa Ciherang', kepsek: 'NURLAELA FATIMAH', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9984560', nama: 'PKBM CENDEKIA', alamat: 'Jl. Kebon Seureuh 03/03 Kelurahan Cipameungpeuk', kepsek: 'IKE MEDYAWATI', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9999642', nama: 'PKBM Generasi Khoiru Ummah', alamat: 'Dusun Cieurih Rt 02 Rw 05 Desa Cipancar', kepsek: 'PITRA SAGARA', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P9984529', nama: 'PKBM IGI SUMEDANG', alamat: 'Prm. Dago Village F2 Rt 03/Rw 11 Desa Sukajaya', kepsek: 'RIDA FATIMAH ZAKIYATUL HUDA', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P2963440', nama: 'PKBM NURUL HUDA', alamat: 'Dusun KukuluRT 4 RW 5 Desa Sukajaya', kepsek: 'FEBRIYAN', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9998294', nama: 'PKBM SHOHIBUL QURAN', alamat: 'Lingkungan Warung Jambu RT. 02 RW. 05 Kel. Pasanggrahan Baru', kepsek: 'KIKI KURNIAWAN', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9996364', nama: 'PKBM AL QOSIMMIYAH', alamat: 'Dusun Pasir Rt. 01 Rw. 05 Desa Rancakalong', kepsek: 'CECEP NURHIDAYATTULOH', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P2963437', nama: 'PKBM JEMBAR KABISA', alamat: 'DSN SELAAWI RT 2/RW 7 Desa Sukahayu,', kepsek: 'SURYANA', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9999067', nama: 'PKBM ASSYARIATUL ULUUM', alamat: 'Dusun Babakan Rt.05/07 Desa Pangadegan', kepsek: 'AI NURUL HABIBAH', grade: 'TT', tahun: 2024, akhir: 2029, sk: 'No SK: 120/BAN-PDM/SK/2025' },
+            { npsn: 'P2964041', nama: 'PKBM SIMPAY WARGI', alamat: 'Dusun KawungluwukRT 2RW 1, Desa Linggajaya', kepsek: 'GATOT YUNIARTA', grade: 'C', tahun: 2017, akhir: 2026, sk: 'No SK: (Bukan Program Kesetaraan) ' },
+            { npsn: 'P9934693', nama: 'PKBM BINA BHAKTI MANDIRI', alamat: 'Dusun Dustan RT.03 RW.04, Desa Cisitu', kepsek: 'ISARIS ARWIANTI', grade: 'B', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
+            { npsn: 'P9984831', nama: 'PKBM NUURUL HAQQ', alamat: 'Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan', kepsek: 'JAJANG ZAINAL MUTAQIN', grade: 'C', tahun: 2022, akhir: 2027, sk: 'No SK: 102/BAN PAUD DAN PNF/AKR/2022' },
+            { npsn: 'P2970386', nama: 'PKBM AGROFORESTY', alamat: 'Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot', kepsek: 'NENG TETI RUSMAYANTI', grade: 'Belum', tahun: 0, akhir: 0, sk: 'Belum Akreditasi' },
+            { npsn: 'P9911127', nama: 'PKBM RAUDHOTUL JANNAH', alamat: 'Dsn. Cikuda 05/05 Desa Sukatani', kepsek: 'DEWI SRI WARTINI', grade: 'C', tahun: 2025, akhir: 2030, sk: 'No SK: 602/BAN-PDM/SK/2025' },
         ];
 
-        const kepalaSekolahMaster = [
-            "EGI ZAENAL MUTAQIEN", "DEDEH KURAESIN", "GRACY MEILANITA", "DEDI MUHAMMAD ISHAK", 
-            "YANA SATRIANA", "ARIF FIRMAN", "ERWIN SUHERLAN", "NYAI SUMIATI",
-            "RIFIN KUSTIAN", "DADANG SUHENRA", "LILIS SUWANGSIH", "TATANG JUWITA",
-            "WAWAN HADI MULYANA", "ELIS TARYAMAH", "M. FARID TAUFIQURROHMAN", "SARSA WITARSA",
-            "ECIN KURASESIN", "HADI NUGRAHA", "NURLAELA FATIMAH", "IKE MEDYAWATI",
-            "PITRA SAGARA", "RIDA FATIMAH ZAKIYATUL HUDA", "FEBRIYAN RAMADHAN", "KIKI KURNIAWAN",
-            "DEDI HERYADI", "SURYANA", "NETI YULIANI", "GATOT YUNIARTA",
-            "ISARIS ARWIANTI", "JAJANG ZAINAL MUTAQIN", "NENG TETI RUSMAYANTI", "DEWI SRI WARTINI"
+        let dataIjin = dataAkreditasi.map((item, idx) => {
+            let logikTahunAkhir = 2025 + (idx % 5);
+            return {
+                npsn: item.npsn,
+                nama: item.nama,
+                alamat: item.alamat,
+                kepsek: item.kepsek,
+                pembuatan: logikTahunAkhir - 5,
+                berakhir: logikTahunAkhir
+            };
+        });
+
+        let dataPD = [
+            { npsn: 'P2963449', nama: 'PKBM MEKAR BUANA', kec: 'Sumedang Utara', desa: 'Kotakaler, Kebon Jati', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9934726', nama: 'PKBM PASCA MARGA', kec: 'Sumedang Utara', desa: 'Rancamulya, Talun', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9952581', nama: 'PKBM MULYASARI SEJATI', kec: 'Sumedang Utara', desa: 'Mulyasari, Sirna Mulya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9999789', nama: 'PKBM AL-AMANAH', kec: 'Sumedang Utara', desa: 'Situ, Mekarjaya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984783', nama: 'PKBM MENTARI MADANI', kec: 'Sumedang Utara', desa: 'Jatihurip, Jatimulya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970750', nama: 'PKBM MENTARI KREATIF MANDIRI', kec: 'Sumedang Utara', desa: 'Margamukti, Padasuka', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2971163', nama: 'PKBM CENDIKIA PURNAMA', kec: 'Sumedang Utara', desa: 'Girimukti', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2963445', nama: 'PKBM TARBIYATUL UMMAH', kec: 'Ganeas', desa: 'Cikoneng, Cikoneng Kulon, Dayeuh Luhur, Ganeas, Sukaluyu, Tanjunghurip', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9968108', nama: 'PKBM CIGEMBONG', kec: 'Ganeas', desa: 'Cikondang, Sukawening', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984832', nama: 'PKBM PELITA INSANI', kec: 'Cisarua', desa: 'Cisarua, Cisalak, Ciuyah, Bantamara', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970545', nama: 'PKBM PKBM PANDAWA', kec: 'Cisarua', desa: 'Kebon Kalapa, Cipandanwangi, Cimara, Cigagak, Bantarmara', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9952443', nama: 'PKBM MAHARANI', kec: 'Situraja', desa: 'Cikadu, Situraja, Malaka, Cijeler, Karangheuleutik', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9997402', nama: 'PKBM SRIKANDI', kec: 'Situraja', desa: 'Sukatali, Situraja', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9952442', nama: 'PKBM AL GHOFUR SITURAJA', kec: 'Situraja', desa: 'Ambit, Mekarmulya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9952442', nama: 'PKBM AT-TAYIBAH', kec: 'Situraja', desa: 'Pamuliihan, Cicarimah', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970650', nama: 'PKBM CERDAS KARYA', kec: 'situraja', desa: 'Kaduluwung, Pamulihan', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970727', nama: 'PKBM PRIMAGAMA', kec: 'Situraja', desa: 'Cijati, Jatimekar', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984552', nama: 'PKMB ACTUAL SEJAHTERA', kec: 'Sumedang Selatan', desa: 'Kota Kulon, Margajaya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970727', nama: 'PKBM AS SALAAM', kec: 'Sumedang Selatan', desa: 'Cisurat, Margamekar', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984560', nama: 'PKBM CENDEKIA', kec: 'Sumedang Selatan', desa: 'Cipameungpeuk, Baginda', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9999642', nama: 'PKBM Generasi Khoiru Ummah', kec: 'Sumedang Selatan', desa: 'Cipancar, Citengah', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984529', nama: 'PKBM IGI SUMEDANG', kec: 'Sumedang Selatan', desa: 'Regol Wetan, Margalaksana', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2963440', nama: 'PKBM NURUL HUDA', kec: 'Sumedang Selatan', desa: 'Sukajaya, Sukajadi, Gunasari', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9998294', nama: 'PKBM SHOHIBUL QURAN', kec: 'Sumedang Selatan', desa: 'Pasanggrahan Baru, Magamekar', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9996364', nama: 'PKBM AL QOSIMMIYAH', kec: 'Rancakalong', desa: 'Rancakalong, Pamekaran, Pasir Biru', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2963437', nama: 'PKBM JEMBAR KABISA', kec: 'Rancakalong', desa: 'Cibungur, Sukahayu, Sukamaju, Nagarawangi', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9999067', nama: 'PKBM ASARIATUL ULUM', kec: 'Rancakalong', desa: 'Pangadegan, Cibunar, sukasirna', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2964041', nama: 'PKBM SIMPAY WARGI', kec: 'Cisitu', desa: 'Cimarga, Cinangsi, Linggajaya, Sundamekar. Cisitu', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9934693', nama: 'PKBM BINA BHAKTI MANDIRI', kec: 'Cisitu', desa: 'Situmekar, Cigintung, Ranjeng, Cilopang, Pajagan', l: 21, p: 25, verval: 'Belum' },
+            { npsn: 'P9911125', nama: 'PKBM BINA SEJAHTERA', kec: 'Pamulihan', desa: 'Rancakalong', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984831', nama: 'PKBM NUURUL HAQQ', kec: 'Wado', desa: 'Cikareo Selatan, Mulya Jaya', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P2970386', nama: 'PKBM AGROFORESTY', kec: 'Jatinunggal', desa: 'Jatinunggal, Pawenang', l: 0, p: 0, verval: 'Belum' },
+            { npsn: 'P9984583', nama: 'PKBM RAUDHOTUL JANNAH', kec: 'Tanjungmedar', desa: 'Sukatani, Tanjungwangi, Cikara,as, Siramukti', l: 0, p: 0, verval: 'Belum' },
         ];
 
-        const alamatSekolahMaster = [
-            "Jl. Angkrek No.98 Kel.Kotakaler", "Jl. KLK No.72 Rt2/Rw2,Desa.Rancamulya", "Dsn. Kadapugur Rt1/Rw6 Desa Mulyasari", "Jl. Angkrek Gg. Karyawan II Kel. Situ",
-            "Prm Jatihurip Blok 9 Desa Jatihurip", "Jl Serma Muhtar NO 97 RT 1RW 7,Kel. Situ", "Jln. 11 April No. 07 Tegalkalong Kel. Kota Kaler", "Dsn Cijengkol Rt 1/Rw 4,Desa Cikoneng",
-            "Dsn. Cigembong RT 1/RW 3, Desa Cikondang", "Jl Pangeran Bungsu No.01 RT1/RW4 Desa Cisarua", "Dusun Cibolang RT2/RW3 Desa Kebon Kalapa", "Jln. Raya Situraja No. 163-164, RT/RW 4/03 Ds. Situraja",
-            "Jalan. Wirahadikusumah No.19 Desa SukatalI", "Kampung Tarikolot RT 02/04 Desa Situraja", "Dsn. Pakemitan, RT.02 RW.05 Desa Situraja", "Dusun Cimuruy Rt. 003 Rw. 001 Desa Mekarmulya",
-            "Dsn. Cijatihilir RT 01/RW 06 Desa Jatimekar", "Jl. Pangeran Geusan Ulun No. 125 Sumedang Kel. Regolwetan", "Dusun SingkupRT 1RW 1 Desa Ciherang", "Jl. Kebon Seureuh 03/03 Kelurahan Cipameungpeuk",
-            "Dusun Cieurih Rt 02 Rw 05 Desa Cipancar", "Prm. Dago Village F2 Rt 03/Rw 11 Desa Sukajaya", "Dusun Kukulu RT 4 RW 5 Desa Sukajaya", "Lingkungan Warung Jambu RT. 02 RW. 05 Kel. Pasangrahan",
-            "Dusun Pasir Rt. 01 Rw. 05 Desa Rancakalong", "Dsn. Selaawi RT 2/RW 7 Desa Sukahayu", "Dusun Babakan Rt.05/07 Desa Pangadegan", "Dusun KawungluwukRT 2RW 1, Desa Linggajaya",
-            "Dusun Dustan RT.03 RW.04, Desa Cisitu", "Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan", "Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot", "Dsn. Cikuda 05/05 Desa Sukatani"
+        let dataERapor = [
+            { npsn: 'P2963449', nama: 'PKBM MEKAR BUANA', skl: 85, isi: 80, pro: 75, pen: 80, ptk: 75, sap: 70, man: 80, bia: 85, keterisian: 'LENGKAP' },
+            { npsn: 'P9934726', nama: 'PKBM PASCA MARGA', skl: 70, isi: 85, pro: 78, pen: 70, ptk: 80, sap: 75, man: 75, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9952581', nama: 'PKBM MULYASARI SEJATI', skl: 82, isi: 80, pro: 88, pen: 80, ptk: 85, sap: 80, man: 80, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9999789', nama: 'PKBM AL-AMANAH', skl: 65, isi: 60, pro: 55, pen: 68, ptk: 50, sap: 58, man: 60, bia: 62, keterisian: 'LENGKAP' },
+            { npsn: 'P9984783', nama: 'PKBM MENTARI MADANI', skl: 78, isi: 75, pro: 70, pen: 76, ptk: 60, sap: 68, man: 72, bia: 75, keterisian: 'LENGKAP' },
+            { npsn: 'P2970750', nama: 'PKBM MENTARI KREATIF MANDIRI', skl: 50, isi: 50, pro: 60, pen: 66, ptk: 40, sap: 80, man: 30, bia: 60, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P2971163', nama: 'PKBM CENDIKIA PURNAMA', skl: 40, isi: 48, pro: 40, pen: 32, ptk: 40, sap: 42, man: 58, bia: 40, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P2963445', nama: 'PKBM TARBIYATUL UMMAH', skl: 85, isi: 80, pro: 65, pen: 58, ptk: 60, sap: 60, man: 82, bia: 65, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P9968108', nama: 'PKBM CIGEMBONG', skl: 82, isi: 80, pro: 76, pen: 84, ptk: 75, sap: 78, man: 80, bia: 84, keterisian: 'LENGKAP' },
+            { npsn: 'P9984832', nama: 'PKBM PELITA INSANI', skl: 70, isi: 85, pro: 60, pen: 60, ptk: 65, sap: 52, man: 86, bia:80, keterisian: 'LENGKAP' },
+            { npsn: 'P2970545', nama: 'PKBM PANDAWA', skl: 60, isi: 54, pro: 40, pen: 58, ptk: 64, sap: 60, man: 60, bia: 65, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P9952443', nama: 'PKBM MAHARANI', skl: 82, isi: 80, pro: 70, pen: 64, ptk: 80, sap: 75, man: 80, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9997402', nama: 'PKBM SRIKANDI', skl: 74, isi: 72, pro: 68, pen: 75, ptk: 62, sap: 66, man: 70, bia: 72, keterisian: 'LENGKAP' },
+            { npsn: 'P9952442', nama: 'PKBM AL GHOFUR SITURAJA', skl: 75, isi: 72, pro: 70, pen: 64, ptk: 70, sap: 75, man: 72, bia: 74, keterisian: 'LENGKAP' },
+            { npsn: 'P2963429', nama: 'PKBM AT-TAYIBAH', skl: 74, isi: 72, pro: 78, pen: 75, ptk: 76, sap: 74, man: 72, bia: 75, keterisian: 'LENGKAP' },
+            { npsn: 'P2970650', nama: 'PKBM CERDAS KARYA', skl: 68, isi: 65, pro: 60, pen: 70, ptk: 55, sap: 62, man: 64, bia: 66, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P2970727', nama: 'PKBM PRIMAGAMA', skl: 60, isi: 50, pro: 42, pen: 40, ptk: 48, sap: 40, man: 45, bia: 48, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P9984552', nama: 'PKBM ACTUAL SEJAHTERA', skl: 62, isi: 80, pro: 75, pen: 75, ptk: 60, sap: 78, man: 70, bia: 72, keterisian: 'LENGKAP' },
+            { npsn: 'P2963439', nama: 'PKBM AS-SALAAM', skl: 81, isi: 79, pro: 75, pen: 82, ptk: 72, sap: 74, man: 78, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9984560', nama: 'PKBM CENDEKIA', skl: 88, isi: 84, pro: 70, pen: 70, ptk: 74, sap: 68, man: 72, bia: 76, keterisian: 'LENGKAP' },
+            { npsn: 'P9999642', nama: 'PKBM Generasi Khoiru Ummah', skl: 53, isi: 60, pro: 58, pen: 54, ptk: 44, sap: 56, man: 61, bia: 53, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P9984529', nama: 'PKBM IGI SUMEDANG', skl: 80, isi: 86, pro: 72, pen: 72, ptk: 78, sap: 80, man: 85, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P2963440', nama: 'PKBM NURUL HUDA', skl: 80, isi: 88, pro: 85, pen: 82, ptk: 82, sap: 84, man: 88, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9998294', nama: 'PKBM SHOHIBUL QURAN', skl: 81, isi: 68, pro: 74, pen: 73, ptk: 76, sap: 72, man: 75, bia: 80, keterisian: 'LENGKAP' },
+            { npsn: 'P9996364', nama: 'PKBM AL QOSIMMIYAH', skl: 75, isi: 72, pro: 80, pen: 68, ptk: 62, sap: 60, man: 62, bia: 65, keterisian: 'LENGKAP' },
+            { npsn: 'P2963437', nama: 'PKBM JEMBAR KABISA', skl: 85, isi: 74, pro: 81, pen: 79, ptk: 80, sap: 79, man: 73, bia: 76, keterisian: 'LENGKAP' },
+            { npsn: 'P9999067', nama: 'PKBM ASSYARIATUL ULUUM', skl: 64, isi: 60, pro: 56, pen: 66, ptk: 52, sap: 58, man: 60, bia: 62, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P2964041', nama: 'PKBM SIMPAY WARGI', skl: 86, isi: 84, pro: 82, pen: 85, ptk: 70, sap: 72, man: 84, bia: 76, keterisian: 'LENGKAP' },
+            { npsn: 'P9934693', nama: 'PKBM BINA BHAKTI MANDIRI', skl: 75, isi: 71, pro: 67, pen: 76, ptk: 73, sap: 75, man: 70, bia: 70, keterisian: 'LENGKAP' },
+            { npsn: 'P9984831', nama: 'PKBM NUURUL HAQQ', skl: 70, isi: 86, pro: 72, pen: 82, ptk: 78, sap: 74, man: 77, bia: 71, keterisian: 'LENGKAP' },
+            { npsn: 'P2970386', nama: 'PKBM AGROFORESTY', skl: 53, isi: 59, pro: 56, pen: 60, ptk: 40, sap: 44, man: 59, bia:72, keterisian: 'BELUM LENGKAP' },
+            { npsn: 'P9984583', nama: 'PKBM RAUDHOTUL JANNAH', skl: 79, isi: 72, pro: 79, pen: 71, ptk: 75, sap: 71, man: 75, bia: 78, keterisian: 'LENGKAP' },
         ];
 
-        // Daftar NPSN Master yang Tidak Berurutan (Non-Sekuensial)
-        const npsnMaster = [
-            "P2963449", "P9934726", "P9952581", "P9999789",
-            "P9984783", "P2970750", "P2971163", "P2963445",
-            "P9968108", "P9984832", "P2970545", "P9952443",
-            "P9997402", "P9952442", "P2963429", "P2970650",
-            "P2970727", "P9984552", "P2963439", "P9984560",
-            "P9999642", "P9984529", "P2963440", "P9998294",
-            "P9996364", "P2963437", "P9999067", "P2964041",
-            "P9934693", "P9984831", "P2970386", "P9911127"
-        ];
+        let editIndexAkreditasi = null, editIndexIjin = null, editIndexPD = null, editIndexERapor = null;
+        let chartAkreditasiInstance, chartGenderInstance, chartVervalInstance, chartSNPInstance;
 
-        let dataSatuan = [];
-        let selectedIdx = -1;
-        let isAdmin = false;
-        let pendingAction = null; // Menyimpan aksi (ke halaman instrumen atau evaluasi sekolah tertentu)
-
-        // Password Admin Dinas
-        const ADMIN_PASSWORD_HASH = "sumedang2026"; 
-
-        // Custom Toast Notification System
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            
-            let icon = '<i class="fa-solid fa-circle-check" style="color: var(--success)"></i>';
-            if (type === 'error') {
-                icon = '<i class="fa-solid fa-circle-xmark" style="color: var(--danger)"></i>';
-            } else if (type === 'info') {
-                icon = '<i class="fa-solid fa-circle-info" style="color: var(--primary)"></i>';
-            }
-
-            toast.innerHTML = `
-                ${icon}
-                <span>${message}</span>
-            `;
-
-            container.appendChild(toast);
-
-            // Trigger fadeout before deleting
-            setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-                toast.addEventListener('animationend', () => {
-                    toast.remove();
-                });
-            }, 3000);
-        }
-
-        function initData() {
-            // Cek Sesi Admin
-            const adminSession = sessionStorage.getItem('pkks_is_admin');
-            if (adminSession === 'true') {
-                isAdmin = true;
-                updateAdminSidebarUI();
-            }
-
-            const localData = localStorage.getItem('pkks_32_master_data');
-            if (localData) {
-                const parsedData = JSON.parse(localData);
-                dataSatuan = parsedData.map((item, idx) => {
-                    return {
-                        ...item,
-                        npsn: item.npsn || npsnMaster[idx],
-                        nama: item.nama || namaPKBMMaster[idx],
-                        kepala: item.kepala || kepalaSekolahMaster[idx],
-                        alamat: item.alamat || alamatSekolahMaster[idx]
-                    };
-                });
-                saveToLocalStorage();
-            } else {
-                for(let i = 0; i < 32; i++) {
-                    dataSatuan.push({
-                        id: i + 1,
-                        npsn: npsnMaster[i],
-                        nama: namaPKBMMaster[i],
-                        kepala: kepalaSekolahMaster[i],
-                        alamat: alamatSekolahMaster[i],
-                        status: false,
-                        m1: 0, m2: 0,
-                        k1: 0, k2: 0,
-                        s1: 0,
-                        p1: 0,
-                        rataRata: 0
-                    });
-                }
-                saveToLocalStorage();
-            }
-            selectedIdx = 0; // Default target sekolah
-            updateDashboardMetrics();
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('pkks_32_master_data', JSON.stringify(dataSatuan));
-        }
-
-        // CONTROL NAV & PROTEKSI ADMIN
-        function showPage(pageId) {
-            // Proteksi Halaman Instrumen langsung dari navbar
-            if (pageId === 'instrumen' && !isAdmin) {
-                pendingAction = { type: 'navigate', target: 'instrumen' };
-                openAdminModal();
-                return;
-            }
-
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-            
-            document.getElementById('page-' + pageId).classList.add('active');
-            document.getElementById('nav-' + pageId).classList.add('active');
-
-            if(pageId === 'beranda') updateDashboardMetrics();
-            else if(pageId === 'satuan') renderTableSatuan();
-            else if(pageId === 'instrumen') loadInstrumenForm();
-        }
-
-        function renderTableSatuan() {
-            const tbody = document.getElementById('schools-tbody');
-            tbody.innerHTML = '';
-
-            dataSatuan.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                const badge = item.status ? 
-                    `<span class="status-badge badge-done"><i class="fa-solid fa-circle-check"></i> Selesai</span>` : 
-                    `<span class="status-badge badge-pending"><i class="fa-solid fa-circle-minus"></i> Kosong</span>`;
-
-                tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td><code style="font-weight: 600; color: var(--primary);">${item.npsn}</code></td>
-                    <td><strong>${item.nama}</strong></td>
-                    <td>${item.kepala}</td>
-                    <td style="font-size: 13px; color: var(--text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.alamat}">${item.alamat}</td>
-                    <td>${badge}</td>
-                    <td><strong style="color: var(--primary);">${item.rataRata.toFixed(1)}</strong></td>
-                    <td>
-                        <button class="action-btn" onclick="pilihSekolahEvaluasi(${idx})"><i class="fa-solid fa-user-pen"></i> Evaluasi</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+        // --- NAVIGATION SYSTEM ---
+        function switchTab(tabId) {
+            ['beranda', 'akreditasi', 'ijin-operasional', 'peserta-didik', 'e-rapor'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).className = "px-3 py-2 rounded text-xs font-medium transition text-gray-300 hover:bg-slate-800";
             });
-        }
-
-        // Aksi ketika klik 'Evaluasi' di daftar Satuan
-        function pilihSekolahEvaluasi(idx) {
-            if (!isAdmin) {
-                // Simpan sekolah yang ditargetkan untuk dievaluasi pasca-login
-                pendingAction = { type: 'evaluate', index: idx };
-                openAdminModal();
-                return;
-            }
-            selectedIdx = idx;
-            showPage('instrumen');
-        }
-
-        function syncScoreText(id) {
-            const val = document.getElementById('score-' + id).value;
-            document.getElementById('txt-' + id).innerText = val;
-        }
-
-        function loadInstrumenForm() {
-            const banner = document.getElementById('current-school-banner');
-            const identitasCard = document.getElementById('form-identitas-card');
-
-            if (selectedIdx === -1) {
-                banner.innerHTML = `<div class="info-block"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> <span>Harap pilih satuan PKBM di tab data untuk memulai penilaian.</span></div>`;
-                if(identitasCard) identitasCard.style.display = 'none';
-                return;
-            }
-
-            if(identitasCard) identitasCard.style.display = 'block';
-
-            const sekolah = dataSatuan[selectedIdx];
-            banner.innerHTML = `
-                <div class="info-block" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">
-                    <div><i class="fa-solid fa-school" style="color: var(--sidebar-active)"></i> <span>Satpen Aktif Fokus Evaluasi: <strong>${sekolah.nama}</strong></span></div>
-                    <div style="font-size: 13px; color: var(--sidebar-text); margin-left: 24px;">
-                        <span>NPSN: <strong>${sekolah.npsn}</strong></span> | <span>Kepala Sekolah: <strong>${sekolah.kepala}</strong></span>
-                    </div>
-                </div>
-            `;
-
-            // Load Identitas ke Input Field
-            document.getElementById('input-nama').value = sekolah.nama;
-            document.getElementById('input-npsn').value = sekolah.npsn;
-            document.getElementById('input-kepala').value = sekolah.kepala;
-            document.getElementById('input-alamat').value = sekolah.alamat;
-
-            // Load Nilai Skor Kinerja ke Slider
-            document.getElementById('score-m1').value = sekolah.m1;
-            document.getElementById('score-m2').value = sekolah.m2;
-            document.getElementById('score-k1').value = sekolah.k1;
-            document.getElementById('score-k2').value = sekolah.k2;
-            document.getElementById('score-s1').value = sekolah.s1;
-            document.getElementById('score-p1').value = sekolah.p1;
-
-            syncScoreText('m1'); syncScoreText('m2');
-            syncScoreText('k1'); syncScoreText('k2');
-            syncScoreText('s1'); syncScoreText('p1');
-        }
-
-        function saveScores() {
-            if (!isAdmin) {
-                showToast("Anda harus login sebagai Admin untuk menyimpan data!", "error");
-                return;
-            }
-            if (selectedIdx === -1) return;
-
-            // Simpan perubahan Identitas dari Input Form
-            dataSatuan[selectedIdx].nama = document.getElementById('input-nama').value.trim() || dataSatuan[selectedIdx].nama;
-            dataSatuan[selectedIdx].npsn = document.getElementById('input-npsn').value.trim() || dataSatuan[selectedIdx].npsn;
-            dataSatuan[selectedIdx].kepala = document.getElementById('input-kepala').value.trim() || dataSatuan[selectedIdx].kepala;
-            dataSatuan[selectedIdx].alamat = document.getElementById('input-alamat').value.trim() || dataSatuan[selectedIdx].alamat;
-
-            // Ambil Skor Kinerja
-            const m1 = parseInt(document.getElementById('score-m1').value);
-            const m2 = parseInt(document.getElementById('score-m2').value);
-            const k1 = parseInt(document.getElementById('score-k1').value);
-            const k2 = parseInt(document.getElementById('score-k2').value);
-            const s1 = parseInt(document.getElementById('score-s1').value);
-            const p1 = parseInt(document.getElementById('score-p1').value);
-
-            dataSatuan[selectedIdx].m1 = m1;
-            dataSatuan[selectedIdx].m2 = m2;
-            dataSatuan[selectedIdx].k1 = k1;
-            dataSatuan[selectedIdx].k2 = k2;
-            dataSatuan[selectedIdx].s1 = s1;
-            dataSatuan[selectedIdx].p1 = p1;
-            dataSatuan[selectedIdx].rataRata = ((m1+m2)/2 + (k1+k2)/2 + s1 + p1) / 4;
-            dataSatuan[selectedIdx].status = true;
-
-            saveToLocalStorage();
-            showToast(`Nilai & Identitas untuk ${dataSatuan[selectedIdx].nama} berhasil disimpan!`, 'success');
-            showPage('beranda');
-        }
-
-        function updateDashboardMetrics() {
-            let totalSelesai = 0;
-            let sumRataRata = 0;
-
-            dataSatuan.forEach(item => {
-                if (item.status) totalSelesai++;
-                sumRataRata += item.rataRata;
-            });
-
-            document.getElementById('dash-progress').innerText = `${totalSelesai} / 32`;
-            document.getElementById('dash-avg').innerText = (sumRataRata / 32).toFixed(1);
-
-            const grafikTitle = document.getElementById('chart-main-title');
-            if (selectedIdx !== -1) {
-                const sk = dataSatuan[selectedIdx];
-                grafikTitle.innerHTML = `<i class="fa-solid fa-chart-bar" style="color:var(--primary)"></i> Grafik Kompetensi Kinerja: <strong>${sk.nama}</strong>`;
-                
-                updateSvgBar('g-manajerial', 't-manajerial', (sk.m1 + sk.m2) / 2);
-                updateSvgBar('g-kewirausahaan', 't-kewirausahaan', (sk.k1 + sk.k2) / 2);
-                updateSvgBar('g-supervisi', 't-supervisi', sk.s1);
-                updateSvgBar('g-sosial', 't-sosial', sk.p1);
-            }
-            renderTop3List();
-        }
-
-        function updateSvgBar(barId, textId, value) {
-            const bar = document.getElementById(barId);
-            const txt = document.getElementById(textId);
-            const heightPixel = (value / 100) * 150;
-            const targetY = 190 - heightPixel;
-
-            bar.setAttribute('y', targetY);
-            bar.setAttribute('height', heightPixel);
-            txt.setAttribute('y', targetY - 6);
-            txt.innerText = value.toFixed(0);
-        }
-
-        function renderTop3List() {
-            const tbody = document.getElementById('top-schools-tbody');
-            tbody.innerHTML = '';
-            const sorted = [...dataSatuan].sort((a, b) => b.rataRata - a.rataRata);
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabId}`).className = "px-3 py-2 rounded text-xs font-medium transition bg-blue-600 text-white";
             
-            let count = 0;
-            for(let i = 0; i < 3; i++) {
-                const item = sorted[i];
-                if(item && item.rataRata > 0) {
-                    count++;
-                    let predikat = "Cukup";
-                    if (item.rataRata >= 85) predikat = "Amat Baik";
-                    else if (item.rataRata >= 70) predikat = "Baik";
+            if(tabId === 'beranda') renderDashboard();
+        }
 
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>${item.nama}</strong></td>
-                        <td><strong style="color:var(--primary)">${item.rataRata.toFixed(1)}</strong></td>
-                        <td><span class="status-badge badge-rank">${predikat}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-            }
-            if(count === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:20px;">Belum ada data nilai masuk.</td></tr>`;
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        function openAddModal(modalId, formId) {
+            document.getElementById(formId).reset();
+            if(modalId === 'modal-akreditasi') { editIndexAkreditasi = null; document.getElementById('title-modal-akreditasi').innerText = "Tambah Data Akreditasi"; }
+            if(modalId === 'modal-ijin') { editIndexIjin = null; document.getElementById('title-modal-ijin').innerText = "Tambah Data Ijin Operasional"; }
+            if(modalId === 'modal-pd') { editIndexPD = null; document.getElementById('title-modal-pd').innerText = "Tambah Data Peserta Didik"; }
+            if(modalId === 'modal-erapor') { editIndexERapor = null; document.getElementById('title-modal-erapor').innerText = "Tambah Data E-Rapor"; }
+            openModal(modalId);
+        }
+
+        function handleGradeChange() {
+            if (document.getElementById('akr-grade').value === 'Belum') {
+                document.getElementById('akr-tahun').value = 0;
+                document.getElementById('akr-akhir').value = 2025;
+                document.getElementById('akr-sk').value = 'Belum Terakreditasi';
             }
         }
 
-        // FUNGSI UNDUH DATA CSV
-        function downloadCSV() {
-            let csvContent = "\uFEFF"; // Byte Order Mark (BOM) untuk Excel agar karakter UTF-8 terbaca rapi
-            csvContent += "No,NPSN,Nama Satuan,Kepala Sekolah,Alamat,Status Pengisian,Rata-rata Skor,Manajerial,Kewirausahaan,Supervisi,Sosial Profesional\r\n";
-            
-            dataSatuan.forEach(item => {
-                const statusStr = item.status ? "Selesai" : "Kosong";
-                const row = [
-                    item.id,
-                    `"${item.npsn}"`,
-                    `"${item.nama}"`,
-                    `"${item.kepala}"`,
-                    `"${item.alamat}"`,
-                    statusStr,
-                    item.rataRata.toFixed(1),
-                    ((item.m1 + item.m2) / 2).toFixed(1),
-                    ((item.k1 + item.k2) / 2).toFixed(1),
-                    item.s1,
-                    item.p1
-                ].join(",");
-                csvContent += row + "\r\n";
-            });
-            
-            // Proses download file
-            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", "Rekap_Laporan_PKKS_Kabupaten_Sumedang_2026.csv");
-            link.style.visibility = "hidden";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("Data Rekapitulasi CSV berhasil diunduh!", "info");
+        function getYearColorBadgeClass(year) {
+            if (year <= 2026) return 'bg-rose-100 text-rose-700 font-bold border border-rose-300';
+            else if (year === 2027) return 'bg-amber-100 text-amber-700 font-bold border border-amber-300';
+            else if (year >= 2028) return 'bg-emerald-100 text-emerald-700 font-bold border border-emerald-300';
+            return 'bg-gray-100 text-gray-700 border border-gray-300';
         }
 
-        // FUNGSI UNDUH PDF PROFESIONAL & STANDARISASI FORMAL
-        function downloadPDF() {
-            const activeSection = document.querySelector('.page-section.active');
-            if (!activeSection) return;
+        function getSnpBadgeClass(val) {
+            if(val >= 80) return 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+            if(val >= 60) return 'bg-amber-100 text-amber-800 border border-amber-300';
+            if(val >= 40) return 'bg-orange-100 text-orange-800 border border-orange-300';
+            return 'bg-rose-100 text-rose-800 border border-rose-300';
+        }
 
-            // Membangun dokumen cetak tiruan sementara agar styling PDF sempurna & konsisten
-            const pdfContainer = document.createElement('div');
-            pdfContainer.style.padding = '35px';
-            pdfContainer.style.fontFamily = "'Inter', sans-serif";
-            pdfContainer.style.color = '#0f172a';
-            pdfContainer.style.backgroundColor = '#ffffff';
-
-            const dateNow = new Date().toLocaleDateString('id-ID', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-
-            // Template Kop Surat Atas Laporan PDF
-            let headerHtml = `
-                <div style="border-bottom: 3px double #0f172a; padding-bottom: 15px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between;">
-                    <div>
-                        <h1 style="font-size: 18px; font-weight: 700; margin: 0; color: #1e3a8a; letter-spacing: -0.5px;">PENILAIAN KINERJA KEPALA SEKOLAH (PKKS) TAHUN 2026</h1>
-                        <p style="font-size: 11px; color: #475569; margin: 4px 0 0 0; font-weight: 500;">Dinas Pendidikan Kabupaten Sumedang — Satuan Pendidikan PNF SKB/PKBM</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <span style="font-size: 11px; font-weight: 600; color: #64748b; background-color: #f1f5f9; padding: 4px 10px; border-radius: 4px;">TGL CETAK: ${dateNow}</span>
-                    </div>
-                </div>
-            `;
-            pdfContainer.innerHTML += headerHtml;
-
-            const activeId = activeSection.id;
-            
-            // Logika Ekspor PDF 1: Jika di halaman Dashboard (Fokus Analisis Sekolah Terpilih)
-            if (activeId === 'page-beranda') {
-                const sk = dataSatuan[selectedIdx] || { nama: 'Belum Terpilih', npsn: '-', kepala: '-', alamat: '-', rataRata: 0 };
-                const mVal = ((sk.m1 + sk.m2)/2).toFixed(1);
-                const kVal = ((sk.k1 + sk.k2)/2).toFixed(1);
-                const sVal = sk.s1.toFixed(1);
-                const pVal = sk.p1.toFixed(1);
-
-                let bodyHtml = `
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">I. Identitas Lembaga & Kepala PKBM</h3>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11px;">
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc; width: 25%;">Nama Satuan PKBM</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; width: 25%; font-weight: 700; color: #1e3a8a;">${sk.nama}</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc; width: 25%;">NPSN Lembaga</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; width: 25%; font-family: monospace; font-size: 12px;">${sk.npsn}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc;">Kepala Sekolah / PKBM</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600;">${sk.kepala}</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc;">Alamat Operasional</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-size: 10px;">${sk.alamat}</td>
-                            </tr>
-                        </table>
-
-                        <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">II. Ringkasan Kinerja Komponen</h3>
-                        <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 25px;">
-                            <thead>
-                                <tr style="background-color: #f1f5f9; text-align: left;">
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 70%;">Dimensi & Indikator Penilaian Utama</th>
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; text-align: center; width: 30%;">Capaian Nilai (Skala 100)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 1: Kompetensi Manajerial (Perencanaan & Tata Kelola)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #1e3a8a;">${mVal}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 2: Kompetensi Kewirausahaan (Aliansi & Edupreneurship)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #10b981;">${kVal}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 3: Kompetensi Supervisi (Supervisi Akademik Tutor)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #f59e0b;">${sVal}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 4: Bidang Sosial & Profesional PNF (Penanganan ATS / Drop-Out)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #8b5cf6;">${pVal}</td>
-                                </tr>
-                                <tr style="background-color: #f8fafc; font-weight: 700; font-size: 13px;">
-                                    <td style="padding: 14px; border: 1px solid #cbd5e1; color: #0f172a;">SKOR AKUMULASI AKHIR (KOMPOSIT)</td>
-                                    <td style="padding: 14px; border: 1px solid #cbd5e1; text-align: center; color: #2563eb; font-size: 15px;">${sk.rataRata.toFixed(1)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                pdfContainer.innerHTML += bodyHtml;
-            
-            // Logika Ekspor PDF 2: Jika di halaman Daftar Satuan PKBM (Ekspor 32 PKBM Lengkap)
-            } else if (activeId === 'page-satuan') {
-                let listHtml = `
-                    <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 15px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Rekapitulasi Capaian Nilai Akhir Evaluasi PKKS Sumedang (32 Satuan)</h3>
-                    <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 25px;">
-                        <thead>
-                            <tr style="background-color: #f1f5f9; text-align: left;">
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 5%;">No</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 12%;">NPSN</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 30%;">Nama Lembaga PKBM</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 25%;">Nama Kepala Sekolah</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 15%; text-align: center;">Status</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 13%; text-align: center;">Skor Akhir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
-                dataSatuan.forEach((item, idx) => {
-                    const statusStr = item.status ? "Telah Dinilai" : "Belum Dinilai";
-                    listHtml += `
-                        <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'};">
-                            <td style="padding: 6px; border: 1px solid #cbd5e1;">${item.id}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; font-family: monospace;">${item.npsn}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: 600;">${item.nama}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1;">${item.kepala}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; text-align: center;">${statusStr}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #2563eb;">${item.rataRata.toFixed(1)}</td>
-                        </tr>
-                    `;
-                });
-
-                listHtml += `
-                        </tbody>
-                    </table>
-                `;
-                pdfContainer.innerHTML += listHtml;
-            }
-
-            // Lembar Tanda Tangan Basah Formal untuk PDF Resmi
-            let footerHtml = `
-                <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 11px; page-break-inside: avoid;">
-                    <div style="width: 45%; text-align: center;">
-                        <p style="margin-bottom: 50px;">Menyetujui & Mengetahui,<br><strong style="text-transform: uppercase;">Pengawas Bina / Penilai</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">ADE SUGIANA, S.S</p>
-                        <p style="color: #64748b; font-size: 10px; margin-top: 4px;">NIP. 19800726 200902 1 002</p>
-                    </div>
-                    <div style="width: 45%; text-align: center;">
-                        <p style="margin-bottom: 50px;">Ditetapkan di Sumedang,<br><strong style="text-transform: uppercase;">Kepala PKBM Terkait</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">( ${selectedIdx !== -1 && activeId === 'page-beranda' ? dataSatuan[selectedIdx].kepala : '......................................'} )</p>
-                    </div>
-                </div>
-            `;
-            pdfContainer.innerHTML += footerHtml;
-
-            // Parameterisasi html2pdf.js ekspor berkas PDF
-            const options = {
-                margin:       15,
-                filename:     activeId === 'page-beranda' ? `Laporan_PKKS_${dataSatuan[selectedIdx].nama.replace(/\s+/g, '_')}_2026.pdf` : 'Rekap_Kinerja_32_Satuan_PKBM_Sumedang_2026.pdf',
+        // --- EXPORT PDF FUNCTIONS ---
+        function downloadPDF(elementId, filename) {
+            const element = document.getElementById(elementId);
+            const opt = {
+                margin:       [0.4, 0.4, 0.4, 0.4],
+                filename:     filename + '_2026.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
             };
 
-            // Menjalankan perintah ekspor download
-            html2pdf().set(options).from(pdfContainer).save();
-            showToast("Laporan PDF berhasil di-render dan diunduh!", "success");
+            const actionButtons = element.querySelectorAll('.no-print');
+            actionButtons.forEach(btn => btn.style.display = 'none');
+            
+            const printTitle = element.querySelector('.print\\:block');
+            if(printTitle) printTitle.style.display = 'block';
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                actionButtons.forEach(btn => btn.style.display = '');
+                if(printTitle) printTitle.style.display = '';
+            });
         }
 
-        // FUNGSI OTORISASI ADMIN MODAL & PASWORD
-        function openAdminModal() {
-            const modal = document.getElementById('admin-modal');
-            const pwdInput = document.getElementById('admin-password-input');
-            pwdInput.value = '';
-            modal.classList.add('active');
-            setTimeout(() => pwdInput.focus(), 150);
+        // Fungsi khusus unduh PDF Beranda (Menggabungkan Header Banner + Rangkuman Statistik)
+        function downloadDashboardPDF() {
+            // Membuat kontainer sementara untuk menampung elemen yang akan di-PDF-kan
+            const element = document.createElement('div');
+            element.style.padding = '20px';
+            element.style.background = '#f9fafb';
+
+            // Clone Header & Area Utama Beranda
+            const headerClone = document.getElementById('main-header').cloneNode(true);
+            const contentClone = document.getElementById('print-area-dashboard').cloneNode(true);
+
+            element.appendChild(headerClone);
+            element.appendChild(contentClone);
+
+            // Sembunyikan elemen berkategori no-print dari berkas PDF hasil render
+            const noPrintElements = element.querySelectorAll('.no-print');
+            noPrintElements.forEach(el => el.remove());
+
+            const opt = {
+                margin:       [0.3, 0.3, 0.3, 0.3],
+                filename:     'Ringkasan_Dashboard_Mutu_2026.pdf',
+                image:        { type: 'jpeg', quality: 0.95 },
+                html2canvas:  { scale: 1.5, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+            };
+
+            html2pdf().set(opt).from(element).save();
         }
 
-        function closeAdminModal() {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.remove('active');
-            pendingAction = null;
+        // --- DATA RENDERING IN TABLES ---
+        function renderTables() {
+            // 1. Table Akreditasi
+            const akrBody = document.getElementById('table-akreditasi-body');
+            akrBody.innerHTML = dataAkreditasi.map((d, index) => {
+                let gradeBadge = 'bg-blue-100 text-blue-700';
+                if (d.grade === 'A') gradeBadge = 'bg-emerald-100 text-emerald-700';
+                else if (d.grade === 'C') gradeBadge = 'bg-amber-100 text-amber-700';
+                else if (d.grade === 'TT') gradeBadge = 'bg-orange-100 text-orange-700';
+                else if (d.grade === 'Belum') gradeBadge = 'bg-rose-100 text-rose-700';
+
+                return `
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="p-3 border-b font-medium text-center">${index + 1}</td>
+                        <td class="p-3 border-b text-blue-600 font-medium">${d.npsn}</td>
+                        <td class="p-3 border-b font-semibold">${d.nama}</td>
+                        <td class="p-3 border-b max-w-xs truncate">${d.alamat}</td>
+                        <td class="p-3 border-b text-gray-600">${d.kepsek}</td>
+                        <td class="p-3 border-b text-center"><span class="px-2 py-0.5 rounded ${gradeBadge}">${d.grade}</span></td>
+                        <td class="p-3 border-b text-center font-medium">${d.tahun}</td>
+                        <td class="p-3 border-b text-center">
+                            <span class="px-3 py-1 rounded-md ${getYearColorBadgeClass(d.akhir)}">${d.akhir}</span>
+                        </td>
+                        <td class="p-3 border-b text-gray-400 font-mono text-[11px]">${d.sk}</td>
+                        <td class="p-3 border-b text-center whitespace-nowrap no-print">
+                            <button onclick="editAkreditasi(${index})" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded mr-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteRow('akr', ${index})" class="text-rose-600 hover:text-rose-900 bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // 2. Table Ijin Operasional
+            const ijinBody = document.getElementById('table-ijin-body');
+            ijinBody.innerHTML = dataIjin.map((d, index) => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="p-3 border-b font-medium text-center">${index + 1}</td>
+                    <td class="p-3 border-b text-blue-600 font-medium">${d.npsn}</td>
+                    <td class="p-3 border-b font-semibold">${d.nama}</td>
+                    <td class="p-3 border-b max-w-xs truncate">${d.alamat}</td>
+                    <td class="p-3 border-b text-gray-600">${d.kepsek}</td>
+                    <td class="p-3 border-b text-center font-medium">${d.pembuatan}</td>
+                    <td class="p-3 border-b text-center">
+                        <span class="px-3 py-1 rounded-md ${getYearColorBadgeClass(d.berakhir)}">${d.berakhir}</span>
+                    </td>
+                    <td class="p-3 border-b text-center whitespace-nowrap no-print">
+                        <button onclick="editIjin(${index})" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded mr-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteRow('ijin', ${index})" class="text-rose-600 hover:text-rose-900 bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // 3. Table Peserta Didik (Zonasi Desa Berwarna Merah)
+            const pdBody = document.getElementById('table-pd-body');
+            pdBody.innerHTML = dataPD.map((d, index) => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="p-3 border-b font-medium text-center">${index + 1}</td>
+                    <td class="p-3 border-b text-blue-600 font-medium">${d.npsn}</td>
+                    <td class="p-3 border-b font-semibold">${d.nama}</td>
+                    <td class="p-3 border-b">${d.kec}</td>
+                    <td class="p-3 border-b text-rose-600 font-semibold">${d.desa}</td>
+                    <td class="p-3 border-b text-center font-medium">${d.l}</td>
+                    <td class="p-3 border-b text-center font-medium">${d.p}</td>
+                    <td class="p-3 border-b text-center font-bold text-gray-900 bg-gray-50">${d.l + d.p}</td>
+                    <td class="p-3 border-b text-center">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.verval === 'Sudah' ? 'bg-emerald-100 text-emerald-800':'bg-rose-100 text-rose-800'}">${d.verval}</span>
+                    </td>
+                    <td class="p-3 border-b text-center whitespace-nowrap no-print">
+                        <button onclick="editPD(${index})" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded mr-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteRow('pd', ${index})" class="text-rose-600 hover:text-rose-900 bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // 4. Table E-Rapor
+            const eraporBody = document.getElementById('table-erapor-body');
+            eraporBody.innerHTML = dataERapor.map((d, index) => `
+                <tr class="hover:bg-gray-50 transition text-center">
+                    <td class="p-3 border-b text-left font-medium">${index + 1}</td>
+                    <td class="p-3 border-b text-left text-blue-600 font-medium">${d.npsn}</td>
+                    <td class="p-3 border-b text-left font-semibold">${d.nama}</td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.skl)}">${d.skl}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.isi)}">${d.isi}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.pro)}">${d.pro}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.pen)}">${d.pen}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.ptk)}">${d.ptk}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.sap)}">${d.sap}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.man)}">${d.man}%</span></td>
+                    <td class="p-2 border-b"><span class="px-1.5 py-0.5 block rounded text-[11px] font-bold ${getSnpBadgeClass(d.bia)}">${d.bia}%</span></td>
+                    <td class="p-3 border-b">
+                        <span class="px-2 py-1 rounded text-[10px] font-extrabold ${d.keterisian === 'LENGKAP' ? 'bg-emerald-600 text-white':'bg-rose-600 text-white'}">${d.keterisian || 'LENGKAP'}</span>
+                    </td>
+                    <td class="p-3 border-b text-center whitespace-nowrap no-print">
+                        <button onclick="editERapor(${index})" class="text-blue-600 hover:text-blue-900 bg-blue-50 px-2 py-1 rounded mr-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteRow('rep', ${index})" class="text-rose-600 hover:text-rose-900 bg-rose-50 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function togglePasswordVisibility() {
-            const pwdInput = document.getElementById('admin-password-input');
-            const eyeIcon = document.getElementById('eye-icon');
-            if (pwdInput.type === 'password') {
-                pwdInput.type = 'text';
-                eyeIcon.className = 'fa-solid fa-eye-slash';
-            } else {
-                pwdInput.type = 'password';
-                eyeIcon.className = 'fa-solid fa-eye';
+        // --- CONTROLLERS FOR FORM ACTIONS (DIABAIKAN - SAMA SEPERTI KODE SEBELUMNYA) ---
+        function editAkreditasi(index) {
+            editIndexAkreditasi = index;
+            const item = dataAkreditasi[index];
+            document.getElementById('title-modal-akreditasi').innerText = "Edit Akreditasi - " + item.nama;
+            document.getElementById('akr-npsn').value = item.npsn;
+            document.getElementById('akr-nama').value = item.nama;
+            document.getElementById('akr-alamat').value = item.alamat;
+            document.getElementById('akr-kepsek').value = item.kepsek;
+            document.getElementById('akr-grade').value = item.grade;
+            document.getElementById('akr-tahun').value = item.tahun;
+            document.getElementById('akr-akhir').value = item.akhir;
+            document.getElementById('akr-sk').value = item.sk;
+            openModal('modal-akreditasi');
+        }
+
+        function editIjin(index) {
+            editIndexIjin = index;
+            const item = dataIjin[index];
+            document.getElementById('title-modal-ijin').innerText = "Edit Ijin Operasional - " + item.nama;
+            document.getElementById('ijin-npsn').value = item.npsn;
+            document.getElementById('ijin-nama').value = item.nama;
+            document.getElementById('ijin-alamat').value = item.alamat;
+            document.getElementById('ijin-kepsek').value = item.kepsek;
+            document.getElementById('ijin-pembuatan').value = item.pembuatan;
+            document.getElementById('ijin-berakhir').value = item.berakhir;
+            openModal('modal-ijin');
+        }
+
+        function editPD(index) {
+            editIndexPD = index;
+            const item = dataPD[index];
+            document.getElementById('title-modal-pd').innerText = "Edit Data Siswa - " + item.nama;
+            document.getElementById('pd-npsn').value = item.npsn;
+            document.getElementById('pd-nama').value = item.nama;
+            document.getElementById('pd-kec').value = item.kec;
+            document.getElementById('pd-desa').value = item.desa;
+            document.getElementById('pd-l').value = item.l;
+            document.getElementById('pd-p').value = item.p;
+            document.getElementById('pd-verval').value = item.verval;
+            openModal('modal-pd');
+        }
+
+        function editERapor(index) {
+            editIndexERapor = index;
+            const item = dataERapor[index];
+            document.getElementById('title-modal-erapor').innerText = "Edit Nilai SNP - " + item.nama;
+            document.getElementById('rep-npsn').value = item.npsn;
+            document.getElementById('rep-nama').value = item.nama;
+            document.getElementById('s-skl').value = item.skl;
+            document.getElementById('s-isi').value = item.isi;
+            document.getElementById('s-pro').value = item.pro;
+            document.getElementById('s-pen').value = item.pen;
+            document.getElementById('s-ptk').value = item.ptk;
+            document.getElementById('s-sap').value = item.sap;
+            document.getElementById('s-man').value = item.man;
+            document.getElementById('s-bia').value = item.bia;
+            document.getElementById('rep-keterisian').value = item.keterisian || 'LENGKAP';
+            openModal('modal-erapor');
+        }
+
+        function saveAkreditasi(e) {
+            e.preventDefault();
+            const gradeVal = document.getElementById('akr-grade').value;
+            const payload = {
+                npsn: document.getElementById('akr-npsn').value,
+                nama: document.getElementById('akr-nama').value.toUpperCase(),
+                alamat: document.getElementById('akr-alamat').value,
+                kepsek: document.getElementById('akr-kepsek').value.toUpperCase(),
+                grade: gradeVal,
+                tahun: gradeVal === 'Belum' ? 0 : (parseInt(document.getElementById('akr-tahun').value) || 0),
+                akhir: gradeVal === 'Belum' ? 2025 : (parseInt(document.getElementById('akr-akhir').value) || 0),
+                sk: gradeVal === 'Belum' ? 'Belum Terakreditasi' : document.getElementById('akr-sk').value
+            };
+            if (editIndexAkreditasi !== null) dataAkreditasi[editIndexAkreditasi] = payload;
+            else dataAkreditasi.push(payload);
+            closeModal('modal-akreditasi');
+            renderTables();
+        }
+
+        function saveIjin(e) {
+            e.preventDefault();
+            const payload = {
+                npsn: document.getElementById('ijin-npsn').value,
+                nama: document.getElementById('ijin-nama').value.toUpperCase(),
+                alamat: document.getElementById('ijin-alamat').value,
+                kepsek: document.getElementById('ijin-kepsek').value.toUpperCase(),
+                pembuatan: parseInt(document.getElementById('ijin-pembuatan').value) || 0,
+                berakhir: parseInt(document.getElementById('ijin-berakhir').value) || 0
+            };
+            if (editIndexIjin !== null) dataIjin[editIndexIjin] = payload;
+            else dataIjin.push(payload);
+            closeModal('modal-ijin');
+            renderTables();
+        }
+
+        function savePD(e) {
+            e.preventDefault();
+            const payload = {
+                npsn: document.getElementById('pd-npsn').value,
+                nama: document.getElementById('pd-nama').value.toUpperCase(),
+                kec: document.getElementById('pd-kec').value,
+                desa: document.getElementById('pd-desa').value,
+                l: parseInt(document.getElementById('pd-l').value) || 0,
+                p: parseInt(document.getElementById('pd-p').value) || 0,
+                verval: document.getElementById('pd-verval').value
+            };
+            if (editIndexPD !== null) dataPD[editIndexPD] = payload;
+            else dataPD.push(payload);
+            closeModal('modal-pd');
+            renderTables();
+        }
+
+        function saveERapor(e) {
+            e.preventDefault();
+            const payload = {
+                npsn: document.getElementById('rep-npsn').value,
+                nama: document.getElementById('rep-nama').value.toUpperCase(),
+                skl: parseInt(document.getElementById('s-skl').value) || 0,
+                isi: parseInt(document.getElementById('s-isi').value) || 0,
+                pro: parseInt(document.getElementById('s-pro').value) || 0,
+                pen: parseInt(document.getElementById('s-pen').value) || 0,
+                ptk: parseInt(document.getElementById('s-ptk').value) || 0,
+                sap: parseInt(document.getElementById('s-sap').value) || 0,
+                man: parseInt(document.getElementById('s-man').value) || 0,
+                bia: parseInt(document.getElementById('s-bia').value) || 0,
+                keterisian: document.getElementById('rep-keterisian').value
+            };
+            if (editIndexERapor !== null) dataERapor[editIndexERapor] = payload;
+            else dataERapor.push(payload);
+            closeModal('modal-erapor');
+            renderTables();
+        }
+
+        function deleteRow(type, index) {
+            if(confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+                if(type === 'akr') dataAkreditasi.splice(index, 1);
+                if(type === 'ijin') dataIjin.splice(index, 1);
+                if(type === 'pd') dataPD.splice(index, 1);
+                if(type === 'rep') dataERapor.splice(index, 1);
+                renderTables();
+                if(!document.getElementById('tab-beranda').classList.contains('hidden')) renderDashboard();
             }
         }
 
-        function handlePasswordKeydown(event) {
-            if (event.key === 'Enter') {
-                submitAdminPassword();
+        // --- DASHBOARD CHARTS SYSTEM ---
+        function renderDashboard() {
+            const totalLembaga = [...new Set([...dataAkreditasi.map(d=>d.npsn), ...dataPD.map(d=>d.npsn)])].length;
+            document.getElementById('stat-total-lembaga').innerText = totalLembaga;
+
+            let totalL = 0, totalP = 0, sudahVerval = 0, belumVerval = 0;
+            dataPD.forEach(d => {
+                totalL += d.l; totalP += d.p;
+                if(d.verval === 'Sudah') sudahVerval++; else belumVerval++;
+            });
+            document.getElementById('stat-total-pd').innerText = totalL + totalP;
+
+            const totalRecordVerval = sudahVerval + belumVerval;
+            document.getElementById('stat-verval-percent').innerText = totalRecordVerval > 0 ? Math.round((sudahVerval / totalRecordVerval) * 100) + '%' : '0%';
+            document.getElementById('stat-verval-detail').innerText = `${sudahVerval} sudah - ${belumVerval} belum`;
+
+            const jmlLengkap = dataERapor.filter(d => d.keterisian === 'LENGKAP').length;
+            document.getElementById('stat-lembaga-erapor').innerText = `${jmlLengkap} / ${dataERapor.length}`;
+
+            let akrCounts = { 'A': 0, 'B': 0, 'C': 0, 'TT': 0, 'Belum': 0 };
+            dataAkreditasi.forEach(d => { if(akrCounts[d.grade] !== undefined) akrCounts[d.grade]++; });
+
+            if(chartAkreditasiInstance) chartAkreditasiInstance.destroy();
+            chartAkreditasiInstance = new Chart(document.getElementById('chartAkreditasi'), {
+                type: 'bar',
+                data: {
+                    labels: ['Akreditasi A', 'Akreditasi B', 'Akreditasi C', 'Akreditasi TT', 'Akreditasi Belum'],
+                    datasets: [{
+                        data: [akrCounts['A'], akrCounts['B'], akrCounts['C'], akrCounts['TT'], akrCounts['Belum']],
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#9ca3af'],
+                        borderRadius: 6
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            if(chartGenderInstance) chartGenderInstance.destroy();
+            chartGenderInstance = new Chart(document.getElementById('chartGender'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Laki-Laki', 'Perempuan'],
+                    datasets: [{ data: [totalL, totalP], backgroundColor: ['#3b82f6', '#ec4899'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 11, font: { size: 10 } } } } }
+            });
+
+            if(chartVervalInstance) chartVervalInstance.destroy();
+            chartVervalInstance = new Chart(document.getElementById('chartVerval'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sudah Verval', 'Belum Verval'],
+                    datasets: [{ data: [sudahVerval, belumVerval], backgroundColor: ['#10b981', '#fb923c'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 11, font: { size: 10 } } } } }
+            });
+
+            // LOGIK KONSOLIDASI RATA-RATA 8 STANDAR NASIONAL PENDIDIKAN
+            let avgSnp = [0, 0, 0, 0, 0, 0, 0, 0];
+            if(dataERapor.length > 0) {
+                dataERapor.forEach(d => {
+                    avgSnp[0] += d.skl; avgSnp[1] += d.isi; avgSnp[2] += d.pro; avgSnp[3] += d.pen;
+                    avgSnp[4] += d.ptk; avgSnp[5] += d.sap; avgSnp[6] += d.man; avgSnp[7] += d.bia;
+                });
+                avgSnp = avgSnp.map(sum => Math.round(sum / dataERapor.length));
             }
-        }
 
-        function submitAdminPassword() {
-            const pwdInput = document.getElementById('admin-password-input');
-            if (pwdInput.value === ADMIN_PASSWORD_HASH) {
-                isAdmin = true;
-                sessionStorage.setItem('pkks_is_admin', 'true');
-                
-                showToast("Verifikasi Berhasil! Sesi Admin Aktif.", "success");
-                updateAdminSidebarUI();
-                closeAdminModal();
+            // MODIFIKASI: Menggunakan 8 warna unik yang berbeda untuk tiap standar pendidikan
+            const delapanWarnaSnp = [
+                '#3b82f6', // SKL - Blue
+                '#10b981', // S. Isi - Emerald
+                '#f59e0b', // S. Proses - Amber
+                '#ec4899', // S. Penilaian - Pink
+                '#8b5cf6', // S. PTK - Purple
+                '#06b6d4', // S. Sapras - Cyan
+                '#f97316', // S. Pengelolaan - Orange
+                '#64748b'  // S. Pembiayaan - Slate
+            ];
 
-                // Eksekusi aksi yang tertunda
-                if (pendingAction) {
-                    if (pendingAction.type === 'navigate' && pendingAction.target === 'instrumen') {
-                        showPage('instrumen');
-                    } else if (pendingAction.type === 'evaluate') {
-                        selectedIdx = pendingAction.index;
-                        showPage('instrumen');
+            if(chartSNPInstance) chartSNPInstance.destroy();
+            chartSNPInstance = new Chart(document.getElementById('chartSNP'), {
+                type: 'bar',
+                data: {
+                    labels: ['SKL', 'S. Isi', 'S. Proses', 'S. Penilaian', 'S. PTK', 'S. Sapras', 'S. Pengelolaan', 'S. Pembiayaan'],
+                    datasets: [{ 
+                        data: avgSnp, 
+                        backgroundColor: delapanWarnaSnp, // Penerapan array warna unik
+                        borderRadius: 5 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false } // Sembunyikan legenda karena label sudah tertera di bawah batang grafik
+                    },
+                    scales: { 
+                        y: { min: 0, max: 100, ticks: { callback: value => value + '%' } } 
                     }
-                    pendingAction = null;
                 }
-            } else {
-                showToast("Password Admin Salah!", "error");
-                pwdInput.focus();
-                pwdInput.select();
-            }
+            });
         }
 
-        function updateAdminSidebarUI() {
-            const statusLbl = document.getElementById('admin-status-lbl');
-            const statusDot = document.getElementById('admin-status-dot');
-            const lockBtn = document.getElementById('btn-admin-lock');
-
-            if (isAdmin) {
-                statusDot.classList.add('active');
-                statusLbl.innerHTML = `<span class="status-dot active"></span><span>Sesi Admin Aktif</span>`;
-                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Logout Admin`;
-                lockBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                lockBtn.style.borderColor = 'transparent';
-            } else {
-                statusDot.classList.remove('active');
-                statusLbl.innerHTML = `<span class="status-dot"></span><span>Mode Pengunjung (Read-Only)</span>`;
-                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Login Admin`;
-                lockBtn.style.background = 'rgba(255, 255, 255, 0.08)';
-                lockBtn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-            }
-        }
-
-        function toggleAdminLogin() {
-            if (isAdmin) {
-                // Logout Admin
-                isAdmin = false;
-                sessionStorage.removeItem('pkks_is_admin');
-                updateAdminSidebarUI();
-                showToast("Sesi Admin Ditutup. Mode Pengunjung Aktif.", "info");
-                // Alihkan ke Beranda jika sedang berada di halaman instrumen
-                const currentActiveSection = document.querySelector('.page-section.active');
-                if (currentActiveSection && currentActiveSection.id === 'page-instrumen') {
-                    showPage('beranda');
-                }
-            } else {
-                // Login Admin
-                pendingAction = null;
-                openAdminModal();
-            }
-        }
-
-        window.onload = function() { initData(); };
+        window.onload = function() {
+            renderTables();
+            renderDashboard();
+        };
     </script>
 </body>
 </html>
