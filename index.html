@@ -53,13 +53,26 @@
 
         <section id="tab-beranda" class="space-y-6">
             
-            <div class="flex justify-between items-center no-print">
-                <h3 class="text-lg font-bold text-gray-800">Ringkasan Statistik Penjaminan Mutu</h3>
-                <div class="flex space-x-2">
-                    <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak Halaman</button>
-                    <button onclick="downloadDashboardPDF()" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF Beranda</button>
-                </div>
-            </div>
+<div class="flex justify-between items-center no-print">
+    <h3 class="text-lg font-bold text-gray-800">Ringkasan Statistik Penjaminan Mutu</h3>
+    <div class="flex items-center space-x-2">
+        <button onclick="kosongkanData()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded text-xs font-medium">
+            <i class="fa-solid fa-trash-can mr-1"></i> Kosongkan Data
+        </button>
+
+        <button onclick="exportToJSON()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded text-xs font-medium">
+            <i class="fa-solid fa-download mr-1"></i> Unduh Data JSON
+        </button>
+        
+        <label class="bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 rounded text-xs font-medium cursor-pointer flex items-center">
+            <i class="fa-solid fa-upload mr-1"></i> Impor Data JSON
+            <input type="file" id="import-json-file" accept=".json" onchange="importFromJSON(event)" class="hidden">
+        </label>
+
+        <button onclick="window.print()" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-print mr-1"></i> Cetak Halaman</button>
+        <button onclick="downloadDashboardPDF()" class="bg-rose-700 hover:bg-rose-800 text-white px-3 py-2 rounded text-xs font-medium"><i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF Beranda</button>
+    </div>
+</div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 no-print">
                 <div onclick="switchTab('akreditasi')" class="bg-blue-600 text-white p-4 rounded-xl shadow-sm flex items-center justify-between cursor-pointer hover:bg-blue-700 transition">
@@ -544,14 +557,45 @@
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
         
-        function openAddModal(modalId, formId) {
-            document.getElementById(formId).reset();
-            if(modalId === 'modal-akreditasi') { editIndexAkreditasi = null; document.getElementById('title-modal-akreditasi').innerText = "Tambah Data Akreditasi"; }
-            if(modalId === 'modal-ijin') { editIndexIjin = null; document.getElementById('title-modal-ijin').innerText = "Tambah Data Ijin Operasional"; }
-            if(modalId === 'modal-pd') { editIndexPD = null; document.getElementById('title-modal-pd').innerText = "Tambah Data Peserta Didik"; }
-            if(modalId === 'modal-erapor') { editIndexERapor = null; document.getElementById('title-modal-erapor').innerText = "Tambah Data E-Rapor"; }
-            openModal(modalId);
+        // --- MODIFIKASI FUNGSI UNTUK MEMBATASI INPUT DATA BARU ---
+function openAddModal(modalId, formId) {
+    // 1. Minta input password admin terlebih dahulu sebelum membuka formulir
+    const passwordInput = prompt("Masukkan Password Admin untuk menginput data baru:");
+    
+    // Jika pengguna menekan tombol Batal (Cancel)
+    if (passwordInput === null) return;
+
+    // Tentukan password admin di sini (Silakan ganti sesuai kebutuhan Anda)
+    const passwordBenar = "admin123";
+
+    // 2. Validasi password
+    if (passwordInput === passwordBenar) {
+        // Jika password benar, jalankan proses normal untuk membuka modal input data
+        const modal = document.getElementById(modalId);
+        const form = document.getElementById(formId);
+        
+        if (form) form.reset();
+        
+        // Mengubah judul modal kembali ke mode tambah data (bukan edit)
+        const titleEl = document.getElementById('title-' + modalId);
+        if (titleEl) {
+            const labelText = modalId.replace('modal-', '').toUpperCase();
+            titleEl.innerText = 'Tambah Data ' + (labelText === 'IJIN' ? 'Ijin Operasional' : labelText);
         }
+        
+        // Hapus data id edit tersembunyi jika ada agar form bersih
+        if (form) {
+            const hiddenId = form.querySelector('input[type="hidden"]');
+            if (hiddenId) hiddenId.remove();
+        }
+        
+        // Tampilkan modal ke layar
+        if (modal) modal.classList.remove('hidden');
+    } else {
+        // Jika password salah
+        alert("Gagal: Password Admin salah! Anda tidak memiliki akses untuk menambah data.");
+    }
+}
 
         function handleGradeChange() {
             if (document.getElementById('akr-grade').value === 'Belum') {
@@ -980,6 +1024,101 @@
             renderTables();
             renderDashboard();
         };
+    // --- FUNGSI UNDUH (EXPORT) DATA JSON ---
+function exportToJSON() {
+    // Gabungkan semua data array aktif ke dalam satu objek
+    const databaseFormall = {
+        dataAkreditasi: dataAkreditasi,
+        dataIjin: dataIjin,
+        dataPD: dataPD,
+        dataERapor: dataERapor
+    };
+
+    // Konversi objek ke string JSON dengan format rapi
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(databaseFormall, null, 2));
+    
+    // Membuat elemen link download sementara
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    
+    // Format nama file: data_mutu_nonformal_YYYY-MM-DD.json
+    const tanggal = new Date().toISOString().slice(0, 10);
+    downloadAnchor.setAttribute("download", `data_mutu_nonformal_${tanggal}.json`);
+    
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+// --- FUNGSI UNGGAH (IMPORT) DATA JSON ---
+function importFromJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            
+            // Validasi sederhana apakah struktur JSON sesuai
+            if (importedData.dataAkreditasi && importedData.dataIjin && importedData.dataPD && importedData.dataERapor) {
+                
+                // Masukkan data hasil import ke dalam variabel global aplikasi
+                dataAkreditasi = importedData.dataAkreditasi;
+                dataIjin = importedData.dataIjin;
+                dataPD = importedData.dataPD;
+                dataERapor = importedData.dataERapor;
+                
+                // Render ulang seluruh tabel dan grafik agar memperbarui tampilan dashboard
+                renderTables();
+                
+                alert("Berhasil! Semua data telah berhasil di-impor dan diperbarui.");
+            } else {
+                alert("Gagal: Format struktur berkas JSON tidak sesuai dengan database sistem.");
+            }
+        } catch (err) {
+            alert("Gagal membaca berkas: Pastikan berkas berformat .json yang valid.");
+            console.error(err);
+        }
+    };
+    
+    // Reset form input file agar berkas yang sama bisa di-import kembali nantinya
+    reader.readAsText(file);
+    event.target.value = '';
+}
+// --- FUNGSI KOSONGKAN/RESET DATA DENGAN PASSWORD ADMIN ---
+function kosongkanData() {
+    // 1. Minta input password admin terlebih dahulu
+    const passwordInput = prompt("Masukkan Password Admin untuk mengosongkan semua data:");
+    
+    // Jika user menekan tombol Batal (Cancel)
+    if (passwordInput === null) return;
+
+    // Tentukan password yang benar di sini (bisa Anda ubah sesuka hati)
+    const passwordBenar = "admin123";
+
+    // 2. Validasi password
+    if (passwordInput === passwordBenar) {
+        // Konfirmasi akhir agar tidak sengaja terhapus
+        const konfirmasi = confirm("Password Benar. Apakah Anda yakin ingin menghapus SELURUH data Akreditasi, Ijin, PD, dan E-Rapor saat ini? Tindakan ini tidak dapat dibatalkan.");
+        
+        if (konfirmasi) {
+            // Mengosongkan seluruh array database utama
+            dataAkreditasi = [];
+            dataIjin = [];
+            dataPD = [];
+            dataERapor = [];
+            
+            // Render ulang tampilan agar tabel dan grafik kembali ke angka 0
+            renderTables();
+            
+            alert("Sukses! Semua data berhasil dikosongkan. Sistem kembali segar.");
+        }
+    } else {
+        // Jika password salah
+        alert("Gagal: Password Admin yang Anda masukkan salah. Akses ditolak!");
+    }
+}
     </script>
 </body>
 </html>
